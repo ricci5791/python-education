@@ -1,6 +1,8 @@
 import time
+import sys
 from datetime import datetime
 
+
 while True:
-    print(datetime.now().strftime("%c"))
+    sys.stdout.write(datetime.now().strftime("%c") + "\n")
     time.sleep(1)
