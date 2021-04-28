@@ -1,5 +1,6 @@
 """
-This module provides basic calculator with adding, subtraction, division and multiplying
+This module provides basic calculator with adding, subtraction, division and
+multiplying
 """
 
 
