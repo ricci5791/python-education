@@ -25,6 +25,12 @@ class MovableObject:
 
 class Transport(MovableObject):
     """Class that represents basic implementation for vehicle"""
+    transport_list = list()
+
+    def __new__(cls, *args, **kwargs):
+        instance = super(Transport, cls).__new__(cls)
+        cls.transport_list.append(instance)
+        return instance
 
     def __init__(self):
         super().__init__()
@@ -58,10 +64,16 @@ class Transport(MovableObject):
             return
         self.payload_mass -= payload_mass
 
+    @staticmethod
+    def show_transport_list():
+        """Print out list of all created instances of class
+        and it's derivatives"""
+        print(f"List of instances: {Transport.transport_list}")
+
     def __str__(self):
         return super().__str__() + \
-               f"With payload mass: {self.payload_mass};" \
-               f" with{'' if self._is_start_engine else ' not'} ignited engine\n"
+               f"With payload mass: {self.payload_mass}; " \
+               f"with{'' if self._is_start_engine else ' not'} ignited engine\n"
 
 
 class Aircraft(Transport):
@@ -103,7 +115,7 @@ class Tanker(Transport):
         print(f"Piiiiip from {self.name}!")
 
     def __str__(self):
-        return super().__str__() +\
+        return super().__str__() + \
                f"Can carry {self.payload_mass} barrels of petroleum"
 
 
@@ -164,9 +176,9 @@ class Subway(Transport):
         return self.railway_width
 
     def __str__(self):
-        return super().__str__() +\
-                f"Can run on {self.railway_width} rails width " \
-                f"with {self.wagon_count} wagons"
+        return super().__str__() + \
+               f"Can run on {self.railway_width} rails width " \
+               f"with {self.wagon_count} wagons"
 
 
 if __name__ == "__main__":
@@ -200,3 +212,5 @@ if __name__ == "__main__":
     print("Adding 500 barrels of payload")
     tanker.add_payload(500)
     print(tanker)
+
+    aircraft.show_transport_list()
