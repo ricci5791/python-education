@@ -151,7 +151,7 @@ class Subway(Transport):
         if wagon_count > self.wagon_count:
             print("Too many to pop!")
             return
-        self.wagon_count += wagon_count
+        self.wagon_count -= wagon_count
 
     def get_railway_width(self):
         """Return standard railway path width"""
@@ -168,5 +168,3 @@ if __name__ == "__main__":
 
     subway.pop_wagons(6)
     subway.pop_wagons(6)
-
-# git commit -m "added parameters description for functions"
