@@ -28,19 +28,19 @@ class Transport(MovableObject):
 
     def __init__(self):
         super().__init__()
-        self.is_start_engine = False
-        self.transport_mass = 1.
+        self._is_start_engine = False
+        self._transport_mass = 1.
         self.payload_mass = 0
         self.max_speed = 100
 
     def start_engine(self):
         """Starts transport engine"""
-        self.is_start_engine = True
+        self._is_start_engine = True
 
     def move(self, new_coords: list[float, float]):
         """Moves transport if engine ignited
         :param new_coords:"""
-        if not self.is_start_engine:
+        if not self._is_start_engine:
             print("Firstly you need to ignite your engine!")
             return
         self.coords = new_coords
@@ -61,7 +61,7 @@ class Transport(MovableObject):
     def __str__(self):
         return super().__str__() + \
                f"With payload mass: {self.payload_mass};" \
-               f" with{'' if self.is_start_engine else ' not'} ignited engine\n"
+               f" with{'' if self._is_start_engine else ' not'} ignited engine\n"
 
 
 class Aircraft(Transport):
