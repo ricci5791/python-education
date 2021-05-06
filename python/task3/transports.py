@@ -20,8 +20,7 @@ class MovableObject:
         self.velocity = new_speed
 
     def __str__(self):
-        return f"Object coords: {self.coords},\n" \
-               f"Object velocity: {self.velocity}\n"
+        return f"Object coords: {self.coords}, velocity: {self.velocity}\n"
 
 
 class Transport(MovableObject):
@@ -61,8 +60,8 @@ class Transport(MovableObject):
 
     def __str__(self):
         return super().__str__() + \
-               f"With payload mass: {self.payload_mass} and" \
-               f" with{'' if self.is_start_engine else ' not'} ignited engine"
+               f"With payload mass: {self.payload_mass};" \
+               f" with{'' if self.is_start_engine else ' not'} ignited engine\n"
 
 
 class Aircraft(Transport):
@@ -84,6 +83,9 @@ class Aircraft(Transport):
         if payload_mass > self.max_payload:
             print(f"Too much of payload. Max is {self.max_payload}")
 
+    def __str__(self):
+        return super().__str__() + f"Max payload is {self.max_payload}"
+
 
 class Tanker(Transport):
     """Represents ship that can carry petroleum
@@ -101,8 +103,8 @@ class Tanker(Transport):
         print(f"Piiiiip from {self.name}!")
 
     def __str__(self):
-        return super(MovableObject, self).__str__() + \
-               f" with {self.payload_mass} of petroleum"
+        return super().__str__() +\
+               f"Can carry {self.payload_mass} barrels of petroleum"
 
 
 class Bus(Transport):
@@ -126,6 +128,10 @@ class Bus(Transport):
     def get_passengers_count(self):
         """Return passengers count boarded"""
         return self.passengers
+
+    def __str__(self):
+        return super().__str__() + \
+               f"Passengers: {self.passengers} out of {self.max_passengers}"
 
 
 class Subway(Transport):
@@ -156,6 +162,11 @@ class Subway(Transport):
     def get_railway_width(self):
         """Return standard railway path width"""
         return self.railway_width
+
+    def __str__(self):
+        return super().__str__() +\
+                f"Can run on {self.railway_width} rails width " \
+                f"with {self.wagon_count} wagons"
 
 
 if __name__ == "__main__":
