@@ -1,4 +1,5 @@
 """Module which contains class hierarchy for different variants of transport"""
+import random
 
 
 class MovableObject:
@@ -59,8 +60,81 @@ class Transport(MovableObject):
                f" with{'' if self.is_start_engine else ' not'} ignited engine"
 
 
-if __name__ == "__main__":
-    trans = Transport()
-    print(trans)
-    trans.start_engine()
-    print(trans)
+class Aircraft(Transport):
+    """Represents vehicle that can fly"""
+
+    def __init__(self, max_payload=5000):
+        super().__init__()
+        self.max_payload = max_payload
+
+    def airport_distance(self) -> tuple[float, float]:
+        """Add distance from the aircraft to a random airport"""
+        return self.coords[0] - random.randint(1, 100), \
+               self.coords[1] - random.randint(1, 100)
+
+    def add_payload(self, payload_mass):
+        """Add payload to a aircraft with some checks"""
+        if payload_mass > self.max_payload:
+            print(f"Too much of payload. Max is {self.max_payload}")
+
+
+class Tanker(Transport):
+    """Represents ship that can carry petroleum"""
+
+    def __init__(self, name, max_route_length=1000):
+        super().__init__()
+        self.name = name
+        self.max_route_length = max_route_length
+
+    def make_sound(self):
+        """Makes sounds :)"""
+        print(f"Piiiiip from {self.name}!")
+
+    def __str__(self):
+        return super(MovableObject, self).__str__() + \
+               f"with {self.payload_mass} of petroleum"
+
+
+class Bus(Transport):
+    """Represents city bus with basic function to make stop"""
+
+    def __init__(self, max_passengers):
+        super().__init__()
+        self.max_passengers = max_passengers
+        self.passengers = 0
+
+    def make_stop(self, passengers_diff):
+        """Add given passengers to a bus"""
+        if self.passengers + passengers_diff > self.max_passengers:
+            print("Too many passengers on board. Take less of them!")
+            return
+        self.passengers += passengers_diff
+
+    def get_passengers_count(self):
+        """Return passengers count boarded"""
+        return self.passengers
+
+
+class Subway(Transport):
+    """Subway class that can append/pop wagons,
+     accepts wagon count and width of railway"""
+
+    def __init__(self, wagon_count=5, railway_width=1460):
+        super().__init__()
+        self.railway_width = railway_width
+        self.wagon_count = wagon_count
+
+    def append_wagons(self, wagon_count):
+        """Append wagon to a train"""
+        self.wagon_count += wagon_count
+
+    def pop_wagons(self, wagon_count):
+        """Pop wagon from a train"""
+        if wagon_count > self.wagon_count:
+            print("Too many to pop!")
+            return
+        self.wagon_count += wagon_count
+
+    def get_railway_width(self):
+        """Return standard railway path width"""
+        return self.railway_width
