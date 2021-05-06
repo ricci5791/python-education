@@ -102,7 +102,7 @@ class Tanker(Transport):
 
     def __str__(self):
         return super(MovableObject, self).__str__() + \
-               f"with {self.payload_mass} of petroleum"
+               f" with {self.payload_mass} of petroleum"
 
 
 class Bus(Transport):
@@ -157,14 +157,35 @@ class Subway(Transport):
         """Return standard railway path width"""
         return self.railway_width
 
+
 if __name__ == "__main__":
     aircraft = Aircraft(2500)
     subway = Subway(7)
     bus = Bus(50)
     tanker = Tanker("Susan")
 
-    print(aircraft.airport_distance())
-    aircraft.change_speed(550)
+    print("\nAircraft functionality")
+    print(f"Nearest airfield is {aircraft.airport_distance()}")
+    aircraft.move([2, 3])
+    aircraft.start_engine()
+    aircraft.move([2, 3])
 
+    print("\nSubway functionality")
+    print("Popping 6 wagons from the subway")
     subway.pop_wagons(6)
+
+    print("Popping another 6 wagons from the subway")
     subway.pop_wagons(6)
+
+    print("\nSubway rail width:" + str(subway.get_railway_width()))
+
+    print("\nBus functionality")
+    print(f"Passengers before stop: {bus.passengers}")
+    bus.make_stop(5)
+    print(f"Passengers after stop: {bus.passengers}")
+
+    print("\nTanker functionality")
+    tanker.make_sound()
+    print("Adding 500 barrels of payload")
+    tanker.add_payload(500)
+    print(tanker)
