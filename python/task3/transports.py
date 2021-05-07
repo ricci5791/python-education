@@ -26,6 +26,7 @@ class MovableObject:
 class Transport(MovableObject):
     """Class that represents basic implementation for vehicle"""
     transport_list = list()
+    _total_distance = 0.
 
     def __new__(cls, *args, **kwargs):
         instance = super(Transport, cls).__new__(cls)
@@ -49,6 +50,9 @@ class Transport(MovableObject):
         if not self._is_start_engine:
             print("Firstly you need to ignite your engine!")
             return
+        Transport._total_distance += ((self.coords[0] - new_coords[0]) ** 2 +
+                                      (self.coords[1] - new_coords[1]) ** 2) \
+                                     ** 0.5
         self.coords = new_coords
 
     def add_payload(self, payload_mass):
@@ -69,6 +73,11 @@ class Transport(MovableObject):
         """Print out list of all created instances of class
         and it's derivatives"""
         print(f"List of instances: {Transport.transport_list}")
+
+    @staticmethod
+    def show_total_distance():
+        """Print out distance that instances of this class traveled"""
+        print(f"Total distance: {Transport._total_distance}")
 
     def __str__(self):
         return super().__str__() + \
@@ -187,6 +196,8 @@ if __name__ == "__main__":
     bus = Bus(50)
     tanker = Tanker("Susan")
 
+    Transport.show_total_distance()
+
     print("\nAircraft functionality")
     print(f"Nearest airfield is {aircraft.airport_distance()}")
     aircraft.move([2, 3])
@@ -214,3 +225,4 @@ if __name__ == "__main__":
     print(tanker)
 
     aircraft.show_transport_list()
+    Transport.show_total_distance()
