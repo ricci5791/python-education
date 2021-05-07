@@ -6,6 +6,7 @@ class MovableObject:
     """Class which contains methods for object that can move or be moved"""
 
     def __init__(self):
+        super().__init__()
         self.coords = [0., 0.]
         self.velocity = 0.
 
@@ -42,6 +43,7 @@ class Engine:
     """Class that contains basic engine behavior"""
 
     def __init__(self):
+        super().__init__()
         self._is_start_engine = False
 
     def start_engine(self):
@@ -65,7 +67,6 @@ class Transport(Engine, MovableObject):
 
     def __init__(self):
         super().__init__()
-        super(Engine, self).__init__()
         self._transport_mass = 1.
         self.payload_mass = 0
         self.max_speed = 100
