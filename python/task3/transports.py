@@ -23,7 +23,22 @@ class MovableObject:
         return f"Object coords: {self.coords}, velocity: {self.velocity}\n"
 
 
-class Transport(MovableObject):
+class Engine:
+    """Class that contains basic engine behavior"""
+
+    def __init__(self):
+        self._is_start_engine = False
+
+    def start_engine(self):
+        """Starts instance engine"""
+        self._is_start_engine = True
+
+    def check_ignition(self):
+        """Return whether engine is started"""
+        return self._is_start_engine
+
+
+class Transport(Engine, MovableObject):
     """Class that represents basic implementation for vehicle"""
     transport_list = list()
     _total_distance = 0.
@@ -35,19 +50,15 @@ class Transport(MovableObject):
 
     def __init__(self):
         super().__init__()
-        self._is_start_engine = False
+        super(Engine, self).__init__()
         self._transport_mass = 1.
         self.payload_mass = 0
         self.max_speed = 100
 
-    def start_engine(self):
-        """Starts transport engine"""
-        self._is_start_engine = True
-
     def move(self, new_coords: list[float, float]):
         """Moves transport if engine ignited
         :param new_coords:"""
-        if not self._is_start_engine:
+        if self.check_ignition():
             print("Firstly you need to ignite your engine!")
             return
         Transport._total_distance += ((self.coords[0] - new_coords[0]) ** 2 +
