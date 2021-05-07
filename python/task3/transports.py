@@ -238,7 +238,7 @@ class Subway(Transport):
         """Create subway from existing wagons in a station pool"""
         if cls.__available_wagons - wagon_count < 0:
             print("Can't create new subway. Too few wagons left!")
-            return
+            return None
         cls.__available_wagons -= wagon_count
         return cls(wagon_count, railway_width)
 
