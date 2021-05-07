@@ -31,7 +31,9 @@ print("\nTanker functionality")
 tanker.make_sound()
 print("Adding 500 barrels of payload")
 tanker.add_payload(500)
-print(tanker)
+tanker.name
+tanker.name = "Dilemma"
+tanker.name
 
 aircraft.show_transport_list()
 transports.Transport.show_total_distance()

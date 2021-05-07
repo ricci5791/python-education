@@ -171,16 +171,25 @@ class Tanker(Transport):
 
     def __init__(self, name, max_route_length=1000):
         super().__init__()
-        self.name = name
+        self._name = name
         self.max_route_length = max_route_length
 
     def make_sound(self):
         """Makes sounds :)"""
         print(f"Piiiiip from {self.name}!")
 
+    @property
+    def name(self):
+        print(f"Current name is {self._name}")
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        self._name = value
+
     def __str__(self):
         return super().__str__() + \
-               f"Can carry {self.payload_mass} barrels of petroleum"
+               f"Carries {self.payload_mass} barrels of petroleum"
 
 
 class Bus(Transport):
