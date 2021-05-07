@@ -226,11 +226,22 @@ class Subway(Transport):
      :param wagon_count:
      :param railway_width:
      """
+    __available_wagons: int = 24
 
     def __init__(self, wagon_count=5, railway_width=1460):
         super().__init__()
         self.railway_width = railway_width
         self.wagon_count = wagon_count
+
+    @classmethod
+    def from_existing_wagons(cls, wagon_count, railway_width):
+        """Create subway from existing wagons in a station pool"""
+        if cls.__available_wagons - wagon_count < 0:
+            print("Can't create new subway. Too few wagons left!")
+            return
+        cls.__available_wagons -= wagon_count
+        return cls(wagon_count, railway_width)
+
 
     def append_wagons(self, wagon_count):
         """Append wagon to a train

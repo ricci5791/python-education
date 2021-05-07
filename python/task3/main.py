@@ -14,6 +14,12 @@ aircraft.start_engine()
 aircraft.move([2, 3])
 
 print("\nSubway functionality")
+print("classmethod of Subway")
+subway2 = transports.Subway.from_existing_wagons(24, 1460)
+print(subway2)
+subway3 = transports.Subway.from_existing_wagons(5, 1460)
+print(subway3, "\n")
+
 print("Popping 6 wagons from the subway")
 subway.pop_wagons(6)
 
