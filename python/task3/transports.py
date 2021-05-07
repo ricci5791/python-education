@@ -180,6 +180,7 @@ class Tanker(Transport):
 
     @property
     def name(self):
+        """Getter/setter for tanker name"""
         print(f"Current name is {self._name}")
         return self._name
 
