@@ -1,8 +1,9 @@
 """Module which contains class hierarchy for different variants of transport"""
 import random
+from abc import ABC, abstractmethod
 
 
-class MovableObject:
+class MovableObject(ABC):
     """Class which contains methods for object that can move or be moved"""
 
     def __init__(self):
@@ -10,33 +11,33 @@ class MovableObject:
         self.coords = [0., 0.]
         self.velocity = 0.
 
+    @abstractmethod
     def move(self, new_coords: list[float, float]):
         """Method which accepts list of 2 coords and set it to a instance
         :param new_coords:"""
         self.coords = new_coords
 
+    @abstractmethod
     def change_speed(self, new_speed: float):
         """Method which accepts float number(speed) and set it to a instance
         :param new_speed:"""
         self.velocity = new_speed
 
+    @abstractmethod
     def __str__(self):
         return f"Object coords: {self.coords}, velocity: {self.velocity}\n"
 
+    @abstractmethod
     def __eq__(self, other):
         return self.coords == other.coords
 
+    @abstractmethod
     def __add__(self, other):
-        new_object = MovableObject()
-        new_object.move([(self.coords[0] + other.coords[0]) / 2,
-                         (self.coords[1] + other.coords[1]) / 2])
-        return new_object
+        print("Adding is not supported yet!")
 
+    @abstractmethod
     def __sub__(self, other):
-        new_object = MovableObject()
-        new_object.move([(self.coords[0] - other.coords[0]) / 2,
-                         (self.coords[1] - other.coords[1]) / 2])
-        return new_object
+        print("Subtraction is not supported yet!")
 
 
 class Engine:
@@ -81,6 +82,18 @@ class Transport(Engine, MovableObject):
         setattr(self, item, None)
         print(f"{item} is created and set to be 'None'.")
 
+    def __add__(self, other):
+        new_object = Transport()
+        new_object.move([(self.coords[0] + other.coords[0]) / 2,
+                         (self.coords[1] + other.coords[1]) / 2])
+        return new_object
+
+    def __sub__(self, other):
+        new_object = Transport()
+        new_object.move([(self.coords[0] - other.coords[0]) / 2,
+                         (self.coords[1] - other.coords[1]) / 2])
+        return new_object
+
     def move(self, new_coords: list[float, float]):
         """Moves transport if engine ignited
         :param new_coords:"""
@@ -91,6 +104,11 @@ class Transport(Engine, MovableObject):
                                       (self.coords[1] - new_coords[1]) ** 2) \
                                      ** 0.5
         self.coords = new_coords
+
+    def change_speed(self, new_speed: float):
+        """Change current speed
+        :param new_speed: Desired speed"""
+        super().change_speed(new_speed)
 
     def add_payload(self, payload_mass):
         """Add payload to a transport
