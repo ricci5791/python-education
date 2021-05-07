@@ -22,6 +22,21 @@ class MovableObject:
     def __str__(self):
         return f"Object coords: {self.coords}, velocity: {self.velocity}\n"
 
+    def __eq__(self, other):
+        return self.coords == other.coords
+
+    def __add__(self, other):
+        new_object = MovableObject()
+        new_object.move([(self.coords[0] + other.coords[0]) / 2,
+                         (self.coords[1] + other.coords[1]) / 2])
+        return new_object
+
+    def __sub__(self, other):
+        new_object = MovableObject()
+        new_object.move([(self.coords[0] - other.coords[0]) / 2,
+                         (self.coords[1] - other.coords[1]) / 2])
+        return new_object
+
 
 class Engine:
     """Class that contains basic engine behavior"""
@@ -54,6 +69,16 @@ class Transport(Engine, MovableObject):
         self._transport_mass = 1.
         self.payload_mass = 0
         self.max_speed = 100
+
+    def __eq__(self, other):
+        return self._transport_mass == other.transport_mass and \
+               self.payload_mass == other.payload_mass and \
+               self.max_speed == other.max_speed
+
+    def __getattr__(self, item):
+        print(f"{item} doesn't exist. Creating new attribute!")
+        setattr(self, item, None)
+        print(f"{item} is created and set to be 'None'.")
 
     def move(self, new_coords: list[float, float]):
         """Moves transport if engine ignited
