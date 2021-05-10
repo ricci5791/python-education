@@ -55,7 +55,7 @@ class Game:
             self.__print_frame()
             self.__print_game_info(avail_attempts, letters_list)
 
-        def set_word(self, word: str):
+        def set_word(self, word: str) -> None:
             """
             Set given word and created mask based on this word to a renderer
             :param word: A word to be set
@@ -103,7 +103,7 @@ class Game:
 
         self.__word = custom_word
 
-    def __read_words_file(self):
+    def __read_words_file(self) -> None:
         """Reads words from words_list.csv"""
         with open('words_list.csv') as file:
             reader = list(csv.reader(file))
