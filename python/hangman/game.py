@@ -18,11 +18,16 @@ class Game:
             self.word_mask = None
 
         def __print_frame(self) -> None:
+            """Prints guillotine from prepared file"""
             print(self.char_field[self.__frame_counter])
 
         def __print_game_info(self,
                               avail_attempts: int,
                               letters_list: list[str]) -> None:
+            """
+            Shows info about game word, attempts left
+            and list of used letters
+            """
             print(f"Current word: {self.word_mask}\n"
                   f"Was used next letters: {letters_list}\n"
                   f"{avail_attempts} attempts left.")
@@ -30,7 +35,8 @@ class Game:
         def start_render_cycle(self, cycle_type: str,
                                avail_attempts: int,
                                letters_list: list[str]) -> None:
-            """Accept predefined state and operates in order to show
+            """
+            Accept predefined state and operates in order to show
             guillotine, letters and other game info
             :param cycle_type: Snake_typing string describes a case of call
             :param avail_attempts: Count of available attempts
@@ -52,12 +58,14 @@ class Game:
         def set_word(self, word: str):
             """
             Set given word and created mask based on this word to a renderer
+            :param word: A word to be set
             """
             self.__word = word
             self.word_mask = ["_" for _ in range(len(word))]
 
         def set_letter(self, index: int, letter: str) -> None:
-            """Reveal letter at specific index
+            """
+            Reveal letter at specific index
             :param index: Index of a letter to be revealed
             :param letter: A letter to be revealed
             """
@@ -113,7 +121,8 @@ class Game:
         return word.lower() == "esc"
 
     def __search_letter(self, user_letter: str) -> int:
-        """Searches for a given letter in the word
+        """
+        Searches for a given letter in the word
         :param user_letter: Letter to be searched
         :return: bool
         """
