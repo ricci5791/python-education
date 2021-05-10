@@ -71,6 +71,8 @@ class Game:
             """
             self.word_mask[index] = letter
 
+    unsolved_words = list()
+
     def __init__(self):
         self.__state = 0
         self.avail_attempts = 6
@@ -102,6 +104,12 @@ class Game:
                                 "or exit")
 
         self.__word = custom_word
+
+    def show_previous_words(self):
+        """
+        Shows list of unsolved words previously gamed
+        """
+        print(self.unsolved_words)
 
     def __read_words_file(self) -> None:
         """Reads words from words_list.csv"""
@@ -163,6 +171,7 @@ class Game:
             if self.avail_attempts == 0:
                 state = "end_game"
                 is_end = True
+                self.unsolved_words.append(self.__word)
 
             if self.__word_mask == self.__win_game_mask:
                 state = "win_game"
