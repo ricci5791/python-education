@@ -1,6 +1,30 @@
 """Module with implementation of restaurant class hierarchy """
 
 
+class Storage:
+    """
+    Contains functions for food storing
+    functionality and used in HallDispatcher
+    """
+
+    def __init__(self):
+        self.temperature = 0.0
+        self.goods = dict()
+        self._storage_conditions = dict()
+
+    def reserve_food(self, food_list: list[tuple[str, float]]) -> bool:
+        """
+        Takes list of goods to be reserved and do it if possible
+        "param food_list: List of good to be reserved, name and quantity
+        """
+
+    def get_invoice(self, food_list: list[str, float]) -> bool:
+        """Add given quantity of goods in the list to the storage"""
+
+    def write_off_food(self, food_list: list[str]) -> None:
+        """Checks expiration time of goods and delete them if expired"""
+
+
 class HallDispatcher:
     """Contains functions for hall functionality and used in Restaurant"""
 
@@ -30,4 +54,3 @@ class Restaurant:
             -> list[tuple[str, float]]:
         """Returns list of timestamp and total bill charged
         :param period: Tuple of 2 timestamps that bound some time period"""
-        pass
