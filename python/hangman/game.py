@@ -12,7 +12,8 @@ class Game:
         """Contains methods required to output the game state to a user"""
         char_field = char_frames
 
-        def __init__(self):
+        def __init__(self, instance):
+            self.outer_instance = instance
             self.__frame_counter = 0
             self.__word = None
             self.word_mask = None
@@ -31,6 +32,36 @@ class Game:
             print(f"Current word: {self.word_mask}\n"
                   f"Was used next letters: {letters_list}\n"
                   f"{avail_attempts} attempts left.")
+
+        def __print_menu_options(self):
+            """Shows options in menu"""
+            print("1: start new game")
+            print("2: show history of words")
+            print("3: exit")
+
+        def reset_state(self):
+            """Resets state of a render instance"""
+            self.__frame_counter = 0
+            self.__word = None
+            self.word_mask = None
+
+        def get_menu(self):
+            """Show menu control"""
+            self.__print_menu_options()
+            user_input = input("Choose option:")
+
+            while user_input != "exit":
+                if user_input == "1":
+                    self.outer_instance.start_game()
+                elif user_input == "2":
+                    print(self.outer_instance.show_previous_words())
+                elif user_input == "3":
+                    break
+                else:
+                    print("Was given wrong input! Try again.")
+
+                self.__print_menu_options()
+                user_input = input()
 
         def start_render_cycle(self, cycle_type: str,
                                avail_attempts: int,
@@ -77,13 +108,15 @@ class Game:
         self.__state = 0
         self.avail_attempts = 6
         self.used_letters = list()
-        self.renderer = Game.Render()
+        self.renderer = Game.Render(self)
         self.__word = None
         self.__word_mask = 1
         self.__win_game_mask = None
 
     def start_game(self) -> None:
         """Starts a game session with word with specified length"""
+        self.__reset_state()
+
         if self.__word is None:
             self.__read_words_file()
 
@@ -91,6 +124,10 @@ class Game:
 
         self.__set_masks()
         self.__take_input()
+
+    def show_menu(self):
+        """Shows menu from Render"""
+        self.renderer.get_menu()
 
     def set_custom_word(self) -> None:
         """Sets custom word to be solved. Should be less than 25 characters"""
@@ -107,9 +144,9 @@ class Game:
 
     def show_previous_words(self):
         """
-        Shows list of unsolved words previously gamed
+        Returns a list of unsolved words previously gamed
         """
-        print(self.unsolved_words)
+        return self.unsolved_words
 
     def __read_words_file(self) -> None:
         """Reads words from words_list.csv"""
@@ -123,6 +160,16 @@ class Game:
 
         self.__word_mask = 1 << mask_size
         self.__win_game_mask = (1 << mask_size + 1) - 1
+
+    def __reset_state(self) -> None:
+        self.__state = 0
+        self.avail_attempts = 6
+        self.used_letters = list()
+        self.__word = None
+        self.__word_mask = 1
+        self.__win_game_mask = None
+
+        self.renderer.reset_state()
 
     def __is_exit_word(self, word: str) -> bool:
         """Checks whether given word is 'esc'"""
