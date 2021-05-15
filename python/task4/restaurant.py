@@ -1,4 +1,21 @@
 """Module with implementation of restaurant class hierarchy """
+from datetime import datetime
+
+
+class Food:
+    """
+    Contains functions for food representation
+    functionality and used in Storage
+    """
+
+    def __init__(self, name: str, avg_mass: float, expire_time: datetime):
+        self.name = name
+        self.avg_mass = avg_mass
+        self.expire_time = expire_time
+
+    def check_expire(self) -> bool:
+        """Checks if item is expired"""
+        return self.expire_time < datetime.now()
 
 
 class Storage:
