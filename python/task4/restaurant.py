@@ -23,11 +23,11 @@ class Storage:
     Contains functions for food storing
     functionality and used in HallDispatcher
     """
+    storage_conditions = dict()
 
     def __init__(self):
         self.temperature = 0.0
         self.goods = dict()
-        self._storage_conditions = dict()
 
     def reserve_food(self, food_list: list[tuple[str, float]]) -> bool:
         """
