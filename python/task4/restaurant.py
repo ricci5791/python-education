@@ -1,11 +1,11 @@
 """Module with implementation of restaurant class hierarchy """
 import uuid
-from datetime import datetime
+import datetime as dt
 from typing import List, Tuple, Dict
 
 ReservingFoodList = Dict[str, float]
 InvoiceFoodList = List[Tuple[str, int]]
-PeriodBoundaries = List[datetime, datetime]
+PeriodBoundaries = List[dt.datetime]
 TransactionHistory = List[Tuple[str, float]]
 
 
@@ -15,9 +15,9 @@ class Food:
     functionality and used in Storage
     """
 
-    def __init__(self, name: str, avg_mass: float, expire_time: datetime):
+    def __init__(self, name: str, quantity: float, expire_time: dt.datetime):
         self.name = name
-        self.avg_mass = avg_mass
+        self.quantity = quantity
         self.expire_time = expire_time
 
     def check_expire(self) -> bool:
@@ -65,7 +65,7 @@ class Problem:
         self.problem_id = uuid.uuid4()
         self.topic = topic
         self.explanation = explanation
-        self.date = datetime.now()
+        self.date = dt.datetime.now()
         self.handler_manager = None
         self.status = "Received"
 
