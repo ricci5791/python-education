@@ -91,8 +91,24 @@ class Cook(Worker):
     def __init__(self, *args):
         super().__init__(*args)
 
-        self.current_meal = ""
+        self._current_meal = None
         self.estimation_time = None
+
+    @property
+    def current_meal(self):
+        """
+        Property value of cook's current meal
+        :return: Current meal of cook
+        :rtype: str
+        """
+        return self._current_meal
+
+    @current_meal.setter
+    def current_meal(self, value: str):
+        if value not in cookbook.keys():
+            raise ValueError(f"Given meal doesn't in the menu: {value}")
+
+        self._current_meal = value
 
     def start_cooking(self, meal: str) -> None:
         """
@@ -100,6 +116,8 @@ class Cook(Worker):
         :param meal: Name of a meal to be cooked
         :return: None
         """
+        self.current_meal = meal
+        self.estimation_time = cookbook[meal]
 
 
 class Customer:
