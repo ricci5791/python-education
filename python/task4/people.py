@@ -68,12 +68,18 @@ class Manager(Worker):
         :param problem: Problem to be solved
         :return: Return whether problem was solved
         """
+        problem.solve_problem()
+        print(f"Problem {problem.problem_id} was solved by {self.worker_id}")
+        return True
 
     def get_customer_service_rate(self) -> int:
         """
         Give service rate about restaurant based on some metric
         :return: Return rate from range 0 to 5
         """
+        service_rate = int(random() * 5)
+        print(f"{self.name} marked restaurant with {service_rate} starts")
+        return service_rate
 
 
 class Cook(Worker):
