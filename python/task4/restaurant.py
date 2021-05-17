@@ -22,7 +22,28 @@ class Food:
 
     def check_expire(self) -> bool:
         """Checks if item is expired"""
-        return self.expire_time < datetime.now()
+        return self.expire_time < dt.datetime.now()
+
+    def __eq__(self, other):
+        return self.name == other
+
+    def __iadd__(self, other):
+        self.quantity += other
+        return self
+
+    def __isub__(self, other):
+        self.quantity -= other
+        return self
+
+    def __lt__(self, other):
+        return self.quantity < other
+
+    def __str__(self):
+        return f"{self.name}: {self.quantity} units. " \
+               f"Expires at {self.expire_time}"
+
+    def __repr__(self):
+        return f"{self.name}:{self.quantity}; exp:{self.expire_time}"
 
 
 class Storage:
