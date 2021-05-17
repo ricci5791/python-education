@@ -106,3 +106,6 @@ class Customer:
         :param reason: String
         :return: New created problem
         """
+
+    def leave(self) -> None:
+        """Make customer to leave the restaurant"""
