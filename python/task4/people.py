@@ -1,8 +1,10 @@
 """Module contains human-like classes implementation"""
+import datetime
 import uuid
+from random import random
 
 from cookbook import cookbook
-from restaurant import Problem
+from restaurant import Problem, Storage
 
 
 class Worker:
@@ -25,13 +27,23 @@ class Worker:
         Assign some job to be done by this worker
         :param job: Job to be done by this worker
         :return: Is job assigned
+        :rtype: bool
         """
+        if random() < 0.95:
+            self._job = job
+            return True
+        print(f"Something went wrong. "
+              f"{job} wasn't assigned to a {self.worker_id} worker")
+        return False
 
-    def check_expired_food(self) -> None:
+    def check_expired_food(self, storage: Storage) -> None:
         """
         Start looking for expired goods in food storage
         :return: None
         """
+        storage.write_off_food()
+        print(f"Worker {self.worker_id} checked for expired goods "
+              f"at {datetime.datetime.now()}")
 
 
 class Manager(Worker):
