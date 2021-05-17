@@ -62,10 +62,10 @@ class Manager(Worker):
         :return: None
         """
 
-    def solve_order_problem(self, problem_id: uuid) -> bool:
+    def solve_order_problem(self, problem: Problem) -> bool:
         """
         Solve given problem if possible
-        :param problem_id:
+        :param problem: Problem to be solved
         :return: Return whether problem was solved
         """
 
