@@ -1,6 +1,12 @@
 """Module with implementation of restaurant class hierarchy """
 import uuid
 from datetime import datetime
+from typing import List, Tuple
+
+ReservingFoodList = List[Tuple[str, float]]
+InvoiceFoodList = List[Tuple[str, int]]
+PeriodBoundaries = List[datetime, datetime]
+TransactionHistory = List[Tuple[str, float]]
 
 
 class Food:
@@ -30,16 +36,16 @@ class Storage:
         self.temperature = 0.0
         self.goods = dict()
 
-    def reserve_food(self, food_list: list[tuple[str, float]]) -> bool:
+    def reserve_food(self, food_list: ReservingFoodList) -> bool:
         """
         Takes list of goods to be reserved and do it if possible
         "param food_list: List of good to be reserved, name and quantity
         """
 
-    def get_invoice(self, food_list: list[str, float]) -> bool:
+    def get_invoice(self, food_list: InvoiceFoodList) -> bool:
         """Add given quantity of goods in the list to the storage"""
 
-    def write_off_food(self, food_list: list[str]) -> None:
+    def write_off_food(self, food_list: List[str]) -> None:
         """Checks expiration time of goods and delete them if expired"""
 
 
@@ -88,7 +94,9 @@ class Restaurant:
         """
         return f"{self.__total_money_flow}"
 
-    def get_transactions_history(self, period: tuple[str, str]) \
-            -> list[tuple[str, float]]:
-        """Returns list of timestamp and total bill charged
-        :param period: Tuple of 2 timestamps that bound some time period"""
+    def get_transactions_history(self, period: PeriodBoundaries) -> \
+            TransactionHistory:
+        """
+        Returns list of timestamp and total bill charged
+        :param period: Tuple of 2 timestamps that bound some time period
+        """

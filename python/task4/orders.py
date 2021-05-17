@@ -1,12 +1,13 @@
 """Module that contains order classes"""
 import datetime
 import uuid
+from typing import List
 
 
 class Order:
     """Contains functions for orders representation functionality"""
 
-    def __init__(self, item_list: list[str], customer: uuid):
+    def __init__(self, item_list: List[str], customer: uuid):
         self.order_id = uuid.uuid4()
         self.item_list = item_list
         self.order_time = datetime.datetime.now()
@@ -14,7 +15,7 @@ class Order:
         self.customer = customer
         self.status = "Received"
 
-    def calculate_price(self, item_list: list[str]) -> float:
+    def calculate_price(self, item_list: List[str]) -> float:
         """Calculates price based on chosen items"""
         return 0.0
 
