@@ -2,6 +2,7 @@
 import uuid
 
 from cookbook import cookbook
+from restaurant import Problem
 
 
 class Worker:
@@ -80,4 +81,28 @@ class Cook(Worker):
         Set estimation time and request goods that are needed
         :param meal: Name of a meal to be cooked
         :return: None
+        """
+
+
+class Customer:
+    """
+    Represents customer of a restaurant
+    """
+
+    def __init__(self, name=None, surname=None):
+        self.customer_id = uuid.uuid4()
+        self.name = name
+        self.surname = surname
+
+    def make_order(self) -> None:
+        """
+        Make some random order with some items from the menu
+        :return:
+        """
+
+    def make_compliance(self, reason: str) -> Problem:
+        """
+        Makes compliance with some reason in it
+        :param reason: String
+        :return: New created problem
         """

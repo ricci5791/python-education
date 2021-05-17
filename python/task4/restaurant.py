@@ -1,4 +1,5 @@
 """Module with implementation of restaurant class hierarchy """
+import uuid
 from datetime import datetime
 
 
@@ -49,6 +50,26 @@ class HallDispatcher:
         self.workers_list = list()
         self.orders_list = list()
         self.storage = None
+
+
+class Problem:
+    """Contains compliance functionality and used in Restaurant"""
+
+    def __init__(self, topic: str, explanation: str):
+        self.problem_id = uuid.uuid4()
+        self.topic = topic
+        self.explanation = explanation
+        self.date = datetime.now()
+        self.handler_manager = None
+        self.status = "Received"
+
+    def solve_problem(self) -> bool:
+        """Try to solve problem
+        :return: Boolean whether problem been solved"""
+
+    def suppress_problem(self) -> bool:
+        """Try to solve problem
+        :return: Boolean whether problem been solved"""
 
 
 class Restaurant:
