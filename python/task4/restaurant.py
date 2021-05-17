@@ -1,9 +1,9 @@
 """Module with implementation of restaurant class hierarchy """
 import uuid
 from datetime import datetime
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
-ReservingFoodList = List[Tuple[str, float]]
+ReservingFoodList = Dict[str, float]
 InvoiceFoodList = List[Tuple[str, int]]
 PeriodBoundaries = List[datetime, datetime]
 TransactionHistory = List[Tuple[str, float]]
@@ -39,7 +39,7 @@ class Storage:
     def reserve_food(self, food_list: ReservingFoodList) -> bool:
         """
         Takes list of goods to be reserved and do it if possible
-        "param food_list: List of good to be reserved, name and quantity
+        :param food_list: List of good to be reserved, name and quantity
         """
 
     def get_invoice(self, food_list: InvoiceFoodList) -> bool:
