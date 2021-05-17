@@ -62,12 +62,38 @@ class Storage:
         Takes list of goods to be reserved and do it if possible
         :param food_list: List of good to be reserved, name and quantity
         """
+        for food, quantity in food_list.items():
+            if self.goods.get(food) is None or self.goods.get(food) \
+                    < quantity:
+                return False
+
+        for food, quantity in food_list.items():
+            self.goods[food] -= quantity
+
+        return True
 
     def get_invoice(self, food_list: InvoiceFoodList) -> bool:
         """Add given quantity of goods in the list to the storage"""
+        for food, quantity in food_list:
+            if food in self.goods:
+                self.goods[food] += quantity
+            else:
+                self.goods[food] = Food(food,
+                                        quantity,
+                                        dt.datetime.strptime("18/09/21",
+                                                             "%d/%m/%y"))
 
-    def write_off_food(self, food_list: List[str]) -> None:
+        return True
+
+    def write_off_food(self, food_list: List[str] = None) -> None:
         """Checks expiration time of goods and delete them if expired"""
+        if food_list is None:
+            food_list = self.goods
+
+        for food in food_list.copy():
+            if food in self.goods.keys() and self.goods.get(food) \
+                    .check_expire():
+                self.goods.pop(food)
 
 
 class HallDispatcher:
