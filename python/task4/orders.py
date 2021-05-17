@@ -1,5 +1,6 @@
 """Module that contains order classes"""
 import datetime
+import random
 import uuid
 from typing import List
 
@@ -64,3 +65,12 @@ class CarOrder(Order):
 
     def deliver_to_car(self) -> bool:
         """Deliver order to a car of a customer"""
+
+        delivery_res = random.random()
+        if delivery_res < 0.95:
+            self.checkout()
+            return True
+        else:
+            print(f"Somethings went wrong, "
+                  f"order {self.order_id} wasn't delivered")
+            return False
