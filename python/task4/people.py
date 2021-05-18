@@ -1,10 +1,12 @@
 """Module contains human-like classes implementation"""
 import datetime
 import uuid
-from random import random
+from random import random, choice
 
 from cookbook import cookbook
-from restaurant import Problem, Storage
+from menu import menu
+import orders
+import restaurant
 
 
 class Worker:
@@ -36,7 +38,7 @@ class Worker:
               f"{job} wasn't assigned to a {self.worker_id} worker")
         return False
 
-    def check_expired_food(self, storage: Storage) -> None:
+    def check_expired_food(self, storage: restaurant.Storage) -> None:
         """
         Start looking for expired goods in food storage
         :return: None
@@ -62,7 +64,7 @@ class Manager(Worker):
         :return: None
         """
 
-    def solve_order_problem(self, problem: Problem) -> bool:
+    def solve_order_problem(self, problem: restaurant.Problem) -> bool:
         """
         Solve given problem if possible
         :param problem: Problem to be solved
@@ -130,18 +132,28 @@ class Customer:
         self.name = name
         self.surname = surname
 
-    def make_order(self) -> None:
+    def make_order(self) -> orders.Order:
         """
         Make some random order with some items from the menu
-        :return:
+        :return: Created order
         """
+        selected_item = choice(sorted(menu.keys()))
 
-    def make_compliance(self, reason: str) -> Problem:
+        order = orders.Order(selected_item, self.customer_id)
+
+        return order
+
+    def make_compliance(self, reason: str) -> restaurant.Problem:
         """
         Makes compliance with some reason in it
         :param reason: String
         :return: New created problem
         """
 
+        return restaurant.Problem("problem", reason)
+
     def leave(self) -> None:
         """Make customer to leave the restaurant"""
+        print(
+            f"Customer {self.name}, id: {self.customer_id} "
+            f"has left the restaurant")
