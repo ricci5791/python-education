@@ -5,7 +5,7 @@ import datetime as dt
 from typing import List, Tuple, Dict
 
 from orders import Order
-from people import Cook
+from people import Cook, Manager
 
 ReservingFoodList = Dict[str, float]
 InvoiceFoodList = List[Tuple[str, int]]
@@ -170,21 +170,27 @@ class HallDispatcher:
 class Problem:
     """Contains compliance functionality and used in Restaurant"""
 
-    def __init__(self, topic: str, explanation: str):
+    def __init__(self, topic: str, explanation: str, manager: Manager = None):
         self.problem_id = uuid.uuid4()
         self.topic = topic
         self.explanation = explanation
         self.date = dt.datetime.now()
-        self.handler_manager = None
+        self.handler_manager = manager
         self.status = "Received"
 
     def solve_problem(self) -> bool:
         """Try to solve problem
         :return: Boolean whether problem been solved"""
+        if self.handler_manager.solve_order_problem(self):
+            self.status = "Solved"
+            return True
+        return False
 
     def suppress_problem(self) -> bool:
         """Try to solve problem
         :return: Boolean whether problem been solved"""
+        self.status = f"Suppressed at {dt.datetime.now()}"
+        return True
 
 
 class Restaurant:
