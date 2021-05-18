@@ -5,7 +5,7 @@ import datetime as dt
 from typing import List, Tuple, Dict
 
 from orders import Order
-from people import Cook, Manager
+from people import Cook, Manager, Customer
 
 ReservingFoodList = Dict[str, float]
 InvoiceFoodList = List[Tuple[str, int]]
@@ -135,7 +135,7 @@ class HallDispatcher:
             return False
 
         for cook in self.workers_list:
-            if isinstance(cook, Cook) and cook.current_meal == "":
+            if isinstance(cook, Cook) and cook.current_meal is None:
                 cook.start_cooking(order.item_list)
                 return True
 
@@ -148,7 +148,11 @@ class HallDispatcher:
         """
         customer = random.choice(self.customers)
 
-        self.orders_list.append(customer.make_order())
+        order = customer.make_order()
+        self.orders_list.append(order)
+
+        if self.__search_cook(order.order_id):
+            order.status = "Done"
 
     def abort_order(self, order_id: uuid) -> None:
         """
@@ -165,6 +169,37 @@ class HallDispatcher:
         :return: List of orders
         :rtype: List[Order]"""
         return self.orders_list
+
+    def add_customer(self):
+        """Create random customer to the hall"""
+        customer = Customer("Billy", "Soprano")
+
+        self.customers.append(customer)
+
+    def done_orders_count(self) -> int:
+        """
+        Counts number of done orders
+        :return: Number of done orders
+        :rtype: int
+        """
+        counter = 0
+
+        for order in self.orders_list:
+            if order.status == "Done":
+                counter += 1
+
+        return counter
+
+    def get_service_rate(self) -> int:
+        """
+        Give service rating from one of the managers
+        :return: Service rate
+        :rtype: int
+        """
+        for worker in self.workers_list:
+            if isinstance(worker, Manager):
+                return worker.get_customer_service_rate()
+        return None
 
 
 class Problem:
@@ -197,17 +232,33 @@ class Restaurant:
     """Class with restaurant functionality"""
 
     def __init__(self):
-        self.__total_money_flow = 0.0
         self.hall_dispatcher = HallDispatcher()
+        self.__total_money_flow = self.__calculate_money_flow()
         self.problems_list = list()
         self.is_closed = True
+
+    def __calculate_money_flow(self):
+        money_flow = 0.0
+        for order in self.hall_dispatcher.orders_list:
+            money_flow += order.price
+        return money_flow
 
     def get_statistics(self) -> str:
         """
         Returns generated statistic about restaurant operations
         in string representation
         """
-        return f"{self.__total_money_flow}"
+        order_count = len(self.hall_dispatcher.orders_list)
+        total_money_flow = self.__total_money_flow
+        current_date = dt.datetime.now()
+        done_order_count = self.hall_dispatcher.done_orders_count()
+        service_rate = self.hall_dispatcher.get_service_rate()
+
+        return f"Orders created: {order_count}\n" \
+               f"Done orders: {done_order_count}\n" \
+               f"total money flow: {total_money_flow}\n" \
+               f"Current time is {current_date}\n" \
+               f"Service rate is {service_rate}\n"
 
     def get_transactions_history(self, period: PeriodBoundaries) -> \
             TransactionHistory:
