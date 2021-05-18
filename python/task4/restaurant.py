@@ -1,7 +1,11 @@
 """Module with implementation of restaurant class hierarchy """
+import random
 import uuid
 import datetime as dt
 from typing import List, Tuple, Dict
+
+from orders import Order
+from people import Cook
 
 ReservingFoodList = Dict[str, float]
 InvoiceFoodList = List[Tuple[str, int]]
@@ -103,6 +107,64 @@ class HallDispatcher:
         self.workers_list = list()
         self.orders_list = list()
         self.storage = None
+        self.customers = list()
+
+    def __search_order(self, order_id: uuid) -> Order:
+        """
+        Search for given order by ID and return it
+        :param order_id: Order id to be searched
+        :return: Order or None if doesn't exist
+        :rtype: Order or None
+        """
+        for order_item in self.orders_list:
+            if order_item.order_id == order_id:
+                return order_item
+        return None
+
+    def __search_cook(self, order_id: uuid) -> bool:
+        """
+        Search for available cook to cook given meal
+        :param order_id: Order meal to be cooked
+        :return: True if cook is available, False otherwise
+        :rtype: bool
+        """
+        order = self.__search_order(order_id)
+
+        if order is None:
+            print("Such order doesn't exist")
+            return False
+
+        for cook in self.workers_list:
+            if isinstance(cook, Cook) and cook.current_meal == "":
+                cook.start_cooking(order.item_list)
+                return True
+
+        return False
+
+    def make_order(self) -> None:
+        """
+        Make random customer make a order with random meal from menu
+        :return: None
+        """
+        customer = random.choice(self.customers)
+
+        self.orders_list.append(customer.make_order())
+
+    def abort_order(self, order_id: uuid) -> None:
+        """
+        Set given order status to be 'Aborted'
+        :param order_id: Order id to set changed
+        :return: None
+        """
+        order = self.__search_order(order_id)
+        if order is not None:
+            order.status = "Aborted"
+
+    def return_orders(self) -> List[Order]:
+        """Return list of orders that was made
+        :return: List of orders
+        :rtype: List[Order]"""
+        return self.orders_list
 
 
 class Problem:
