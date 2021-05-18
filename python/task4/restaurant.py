@@ -152,6 +152,7 @@ class HallDispatcher:
         self.orders_list.append(order)
 
         if self.__search_cook(order.order_id):
+            print(f"Order {order.order_id} is done at {dt.datetime.now()}!")
             order.status = "Done"
 
     def abort_order(self, order_id: uuid) -> None:
