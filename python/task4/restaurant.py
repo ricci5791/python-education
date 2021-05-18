@@ -266,3 +266,13 @@ class Restaurant:
         Returns list of timestamp and total bill charged
         :param period: Tuple of 2 timestamps that bound some time period
         """
+        transactions = list()
+
+        left_bound = period[0]
+        right_bound = period[1]
+
+        for order in self.hall_dispatcher.orders_list:
+            if left_bound < order.order_time < right_bound:
+                transactions.append((order.order_id, order.price))
+
+        return transactions
