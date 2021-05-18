@@ -1,0 +1,38 @@
+"""Module with common use of classes and functions"""
+import datetime
+
+import restaurant
+import people
+
+
+def populate_workers():
+    """Create managers and cooks list to be used in Restaurant"""
+    managers = [people.Manager("Silly", "Seaborn", 12345),
+                people.Manager("Sally", "Landborn", 64578),
+                people.Manager("Sully", "Spaceborn", 11223)]
+
+    cooks = [people.Cook("Rikky", "Stormfire", 55794),
+             people.Cook("Rukky", "Thunderfire", 5542)]
+    managers.extend(cooks)
+
+    return managers
+
+
+rest = restaurant.Restaurant()
+
+rest.hall_dispatcher.workers_list.extend(populate_workers())
+
+rest.hall_dispatcher.add_customer()
+print("Making orders")
+rest.hall_dispatcher.make_order()
+rest.hall_dispatcher.make_order()
+rest.hall_dispatcher.make_order()
+
+print("\nGetting transaction history\n")
+print(rest.get_transactions_history([
+    datetime.datetime(year=2021, month=1, day=1),
+    datetime.datetime(year=2022, month=1, day=1)
+]))
+
+print("\nGetting statistics\n")
+print(rest.get_statistics())
