@@ -38,7 +38,7 @@ class Worker:
               f"{job} wasn't assigned to a {self.worker_id} worker")
         return False
 
-    def check_expired_food(self, storage: restaurant.Storage) -> None:
+    def check_expired_food(self, storage) -> None:
         """
         Start looking for expired goods in food storage
         :return: None
@@ -64,7 +64,7 @@ class Manager(Worker):
         :return: None
         """
 
-    def solve_order_problem(self, problem: restaurant.Problem) -> bool:
+    def solve_order_problem(self, problem) -> bool:
         """
         Solve given problem if possible
         :param problem: Problem to be solved
@@ -79,7 +79,7 @@ class Manager(Worker):
         Give service rate about restaurant based on some metric
         :return: Return rate from range 0 to 5
         """
-        service_rate = int(random() * 5)
+        service_rate = int(random() * 5 + 1)
         print(f"{self.name} marked restaurant with {service_rate} starts")
         return service_rate
 
@@ -143,7 +143,7 @@ class Customer:
 
         return order
 
-    def make_compliance(self, reason: str) -> restaurant.Problem:
+    def make_compliance(self, reason: str) -> "restaurant.Problem":
         """
         Makes compliance with some reason in it
         :param reason: String
