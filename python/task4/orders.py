@@ -22,12 +22,7 @@ class Order:
 
     def calculate_price(self) -> float:
         """Calculates price based on chosen items"""
-        price = 0.
-
-        for item in self.item_list:
-            price += self.menu.get(item)
-
-        return price
+        return self.menu[self.item_list]
 
     @property
     def item_list(self):
@@ -38,16 +33,19 @@ class Order:
         return self._item_list
 
     @item_list.setter
-    def item_list(self, value: List[str]):
-        for item in value:
-            if item not in self.menu.keys():
-                raise ValueError(f"Item doesn't exist: {item}")
+    def item_list(self, value: str):
+        if value not in self.menu.keys():
+            raise ValueError(f"Item doesn't exist: {value}")
 
         self._item_list = value
 
     def checkout(self) -> None:
         """Checkout order"""
         self.status = "Done"
+
+    def __repr__(self):
+        return f"items:{self.item_list}; price:{self.price}; " \
+               f"time:{self.order_time}"
 
 
 class CarOrder(Order):
