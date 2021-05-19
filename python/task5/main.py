@@ -13,6 +13,8 @@ for i in sen:
 
 print("\nSentence.words: ")
 print(sen.words)
+print("\nSentence.chars_count: ")
+print(sen.chars_count)
 print("\nSentence.other_chars: ")
 print(sen.other_chars)
 print("\nSentence[0]: ")
