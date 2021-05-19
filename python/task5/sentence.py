@@ -66,12 +66,12 @@ class Sentence:
 
     def set_chars_count(self) -> int:
         """
-        Counts latin chars in sentence
-        :return: Number of latin chars
+        Counts latin words in sentence
+        :return: Number of latin words
         :rtype: int
         """
         words_count = 0
-        for char in self._sentence:
+        for char in self.del_other_chars().split():
             if str.isalpha(char):
                 words_count += 1
         return words_count
