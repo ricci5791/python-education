@@ -97,9 +97,7 @@ class Sentence:
             return self.__del_other_chars().split()[item]
 
         if isinstance(item, slice):
-            return self.__del_other_chars().split()[item.start:
-                                                    item.stop:
-                                                    item.step]
+            return self.__del_other_chars().split()[item]
 
     def __iter__(self):
         """Returns SentenceIterator instance"""
