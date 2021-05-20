@@ -1,5 +1,7 @@
 """Module contains tests for code from to_test.py"""
 
+from unittest.mock import patch, Mock
+import datetime as dt
 import pytest
 
 from python.task6 import to_test
@@ -41,8 +43,26 @@ def test_sum_all_positive_input(test_input, expected):
     ([1, 2, 3, "4"]),
     ([1, 2, 3, None]),
     ([None, None]),
+    ([True, False]),
 ])
 def test_sum_all_negative_input_wrong_type(test_input):
     """Contains tests for 'sum_all' func with wrong parameters type"""
     with pytest.raises(TypeError):
         to_test.sum_all(*test_input)
+
+
+@pytest.mark.parametrize("test_hour, expected", [
+    (0, "night"),
+    (8, "morning"),
+    (6, "morning"),
+    (12, "afternoon"),
+    (19, "night"),
+])
+def test_time_of_day(test_hour, expected):
+    """Mocks datetime.now() and tests if statements in 'time_of_day' function"""
+    datetime = Mock()
+    datetime.now.return_value = dt.datetime.strptime(
+            f"{test_hour}:20:19 20/05/21", '%H:%M:%S %d/%m/%y')
+
+    with patch("python.task6.to_test.datetime", datetime):
+        assert to_test.time_of_day() == expected
