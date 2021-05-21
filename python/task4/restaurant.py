@@ -164,6 +164,7 @@ class HallDispatcher:
         order = self.__search_order(order_id)
         if order is not None:
             order.status = "Aborted"
+            print(f"Order:{order.order_id} has been aborted!")
 
     def return_orders(self) -> List[Order]:
         """Return list of orders that was made
@@ -226,6 +227,9 @@ class Problem:
         :return: Boolean whether problem been solved"""
         self.status = f"Suppressed at {dt.datetime.now()}"
         return True
+
+    def __repr__(self):
+        return f"{self.topic}, {self.explanation}, {self.status}, {self.date}"
 
 
 class Restaurant:

@@ -1,5 +1,6 @@
 """Module with common use of classes and functions"""
 import datetime
+from random import choice
 
 import restaurant
 import people
@@ -36,3 +37,8 @@ print(rest.get_transactions_history([
 
 print("\nGetting statistics\n")
 print(rest.get_statistics())
+
+rest.hall_dispatcher.abort_order(
+    choice(rest.hall_dispatcher.orders_list).order_id)
+
+print(rest.get_problem())
