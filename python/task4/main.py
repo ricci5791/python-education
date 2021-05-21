@@ -39,6 +39,6 @@ print("\nGetting statistics\n")
 print(rest.get_statistics())
 
 rest.hall_dispatcher.abort_order(
-    choice(rest.hall_dispatcher.orders_list).order_id)
+        choice(rest.hall_dispatcher.orders_list).order_id)
 
-print(rest.get_problem())
+print(rest.get_problem().suppress_problem())

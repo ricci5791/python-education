@@ -68,7 +68,6 @@ class CarOrder(Order):
         if delivery_res < 0.95:
             self.checkout()
             return True
-        else:
-            print(f"Somethings went wrong, "
-                  f"order {self.order_id} wasn't delivered")
-            return False
+
+        print(f"Somethings went wrong, order {self.order_id} wasn't delivered")
+        return False
