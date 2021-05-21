@@ -2,7 +2,7 @@
 import random
 import uuid
 import datetime as dt
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Optional
 
 from orders import Order
 from people import Cook, Manager, Customer
@@ -109,17 +109,17 @@ class HallDispatcher:
         self.storage = None
         self.customers = list()
 
-    def __search_order(self, order_id: uuid) -> Order:
+    def __search_order(self, order_id: uuid) -> Optional[Order]:
         """
         Search for given order by ID and return it
+
         :param order_id: Order id to be searched
         :return: Order or None if doesn't exist
-        :rtype: Order or None
+        :rtype: Optional[Order]
         """
         for order_item in self.orders_list:
             if order_item.order_id == order_id:
                 return order_item
-        return None
 
     def __search_cook(self, order_id: uuid) -> bool:
         """
@@ -191,7 +191,7 @@ class HallDispatcher:
 
         return counter
 
-    def get_service_rate(self) -> int:
+    def get_service_rate(self) -> Optional[int]:
         """
         Give service rating from one of the managers
         :return: Service rate
@@ -200,7 +200,6 @@ class HallDispatcher:
         for worker in self.workers_list:
             if isinstance(worker, Manager):
                 return worker.get_customer_service_rate()
-        return None
 
 
 class Problem:
