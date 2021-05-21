@@ -280,3 +280,13 @@ class Restaurant:
                 transactions.append((order.order_id, order.price))
 
         return transactions
+
+    def get_problem(self) -> Problem:
+        """
+        Create problem by random customer
+
+        :return: Newly created problem
+        """
+        customer = random.choice(self.hall_dispatcher.customers)
+
+        return customer.make_compliance("Bad service!")
