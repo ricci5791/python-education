@@ -41,4 +41,9 @@ print(rest.get_statistics())
 rest.hall_dispatcher.abort_order(
         choice(rest.hall_dispatcher.orders_list).order_id)
 
-print(rest.get_problem().suppress_problem())
+print("Suppressing the problem" + str(rest.get_problem().suppress_problem()))
+
+car_order = rest.hall_dispatcher.make_car_order()
+print(car_order)
+print("Car order was delivered to the car" if car_order.deliver_to_car() else
+      "Car order wasn't delivered")
