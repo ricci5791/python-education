@@ -242,14 +242,19 @@ class Problem:
             return True
         return False
 
-    def suppress_problem(self) -> bool:
-        """Try to solve problem
-        :return: Boolean whether problem been solved"""
+    def suppress_problem(self) -> "Problem":
+        """Suppress given problem
+
+        :return: Problem itself"""
         self.status = f"Suppressed at {dt.datetime.now()}"
-        return True
+        return self
 
     def __repr__(self):
         return f"{self.topic}, {self.explanation}, {self.status}, {self.date}"
+
+    def __str__(self):
+        return f"Topic: {self.topic}, explanation: {self.explanation},\n" \
+               f"Status: {self.status}, was created at: {self.date}"
 
 
 class Restaurant:
