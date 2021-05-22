@@ -1,4 +1,4 @@
-"""Module contains tests for code from to_test.py"""
+"""Module contains tests for functions from to_test.py"""
 
 from unittest.mock import patch, Mock
 import datetime as dt
