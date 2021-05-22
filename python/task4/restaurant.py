@@ -222,6 +222,20 @@ class HallDispatcher:
             if isinstance(worker, Manager):
                 return worker.get_customer_service_rate()
 
+    def solve_problem(self, problem: "Problem") -> bool:
+        """
+        Solve given problem with random manager
+
+        :param problem: Problem instance to be solved
+        :return: True if problem was solved
+        :rtype: bool
+        """
+        for worker in self.workers_list:
+            if isinstance(worker, Manager):
+                problem.handler_manager = worker
+                return worker.solve_order_problem(problem)
+        return False
+
 
 class Problem:
     """Contains compliance functionality and used in Restaurant"""
@@ -237,7 +251,7 @@ class Problem:
     def solve_problem(self) -> bool:
         """Try to solve problem
         :return: Boolean whether problem been solved"""
-        if self.handler_manager.solve_order_problem(self):
+        if random.random() < .95:
             self.status = "Solved"
             return True
         return False
@@ -313,5 +327,22 @@ class Restaurant:
         :return: Newly created problem
         """
         customer = random.choice(self.hall_dispatcher.customers)
+        problem = customer.make_compliance("Bad service!")
+        self.problems_list.append(problem)
 
-        return customer.make_compliance("Bad service!")
+        return problem
+
+    def solve_problem(self):
+        """Solve some problem from the list if possible
+
+        :return: None
+        """
+        if len(self.problems_list) == 0:
+            print("There is no problem")
+            return
+
+        problem = random.choice([problem if problem.status != "Solved" else ""
+                                 for problem in self.problems_list])
+
+        if self.hall_dispatcher.solve_problem(problem):
+            print(f"Problem {problem.problem_id} was solved!")
