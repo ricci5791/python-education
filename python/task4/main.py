@@ -47,3 +47,8 @@ car_order = rest.hall_dispatcher.make_car_order()
 print(car_order)
 print("Car order was delivered to the car" if car_order.deliver_to_car() else
       "Car order wasn't delivered")
+
+rest.get_problem()
+rest.get_problem()
+
+rest.solve_problem()
