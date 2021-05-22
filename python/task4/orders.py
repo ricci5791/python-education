@@ -44,7 +44,7 @@ class Order:
         self.status = "Done"
 
     def __repr__(self):
-        return f"items:{self.item_list}; price:{self.price}; " \
+        return f"item:{self.item_list}; price:{self.price}; " \
                f"time:{self.order_time}"
 
 
@@ -60,6 +60,17 @@ class CarOrder(Order):
 
         self.car_plate = car_plate
         self.pickup_line = pickup_line
+
+    @classmethod
+    def from_order(cls, order: Order) -> "CarOrder":
+        """Creates new carOrder based on created Order instance
+
+        :return: New CarOrder
+        :rtype: CarOrder
+        """
+        car_order = CarOrder(order.item_list, order.customer,
+                             car_plate='AX6335HO', pickup_line=2)
+        return car_order
 
     def deliver_to_car(self) -> bool:
         """Deliver order to a car of a customer"""
