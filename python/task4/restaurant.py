@@ -4,7 +4,7 @@ import uuid
 import datetime as dt
 from typing import List, Tuple, Dict, Optional
 
-from orders import Order
+from orders import Order, CarOrder
 from people import Cook, Manager, Customer
 
 ReservingFoodList = Dict[str, float]
@@ -141,7 +141,7 @@ class HallDispatcher:
 
         return False
 
-    def make_order(self) -> None:
+    def make_order(self) -> Order:
         """
         Make random customer make a order with random meal from menu
         :return: None
@@ -154,6 +154,26 @@ class HallDispatcher:
         if self.__search_cook(order.order_id):
             print(f"Order {order.order_id} is done at {dt.datetime.now()}!")
             order.status = "Done"
+
+        return order
+
+    def make_car_order(self) -> CarOrder:
+        """
+        Makes new car order with random meal from menu
+
+        :return: None
+        """
+        customer = random.choice(self.customers)
+
+        order = customer.make_order()
+        car_order = CarOrder.from_order(order)
+        self.orders_list.append(car_order)
+
+        if self.__search_cook(car_order.order_id):
+            print(f"Order {car_order.order_id} is done at {dt.datetime.now()}!")
+            car_order.status = "Done"
+
+        return car_order
 
     def abort_order(self, order_id: uuid) -> None:
         """
