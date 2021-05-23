@@ -43,9 +43,14 @@ class Render:
         first_player_name = input("Enter first player name")
         second_player_name = input("Enter second player name")
 
-        if re.findall(r"\W", first_player_name + " " + second_player_name) and \
-                first_player_name != second_player_name:
-            return first_player_name, second_player_name
+        while re.findall(r"[^A-z\s]", first_player_name + second_player_name) \
+                or first_player_name == second_player_name:
+            print("Wrong names! Try again. \n")
+
+            first_player_name = input("Enter first player name")
+            second_player_name = input("Enter second player name")
+
+        return first_player_name, second_player_name
 
     @staticmethod
     def get_player_move(player_name: str) -> int:
