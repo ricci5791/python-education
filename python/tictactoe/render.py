@@ -1,5 +1,7 @@
 """Module with render-associated classes: Render and Tkinter"""
+import os
 import re
+import prettytable
 from typing import List, Tuple
 
 
@@ -7,6 +9,11 @@ class Render:
     """
     Render class that can show tic-tac-toe field
     """
+
+    def __init__(self):
+        self.text_table = prettytable.PrettyTable()
+        self.text_table.header = False
+        self.text_table.hrules = prettytable.ALL
 
     @staticmethod
     def show(string: str) -> None:
@@ -18,8 +25,7 @@ class Render:
         """
         print(string)
 
-    @staticmethod
-    def show_field(game_field: List[str]):
+    def show_field(self, game_field: List[str]):
         """
         Prints given list of chars as square game field
 
@@ -27,9 +33,15 @@ class Render:
         :type game_field: List[str]
         :return: None
         """
+        self.text_table.clear()
+        os.system('cls')
+        os.system('clear')
+
         rows_slices = [game_field[:3], game_field[3: 6], game_field[6:]]
-        for row in rows_slices:
-            print(row)
+
+        self.text_table.add_rows(rows_slices)
+
+        print(self.text_table)
 
     @staticmethod
     def get_names() -> Tuple[str, str]:
@@ -69,7 +81,8 @@ class Render:
 
         return user_input
 
-    def show_menu(self) -> int:
+    @staticmethod
+    def show_menu() -> int:
         """
         Takes user input from 1 to 3 as menu points
 
