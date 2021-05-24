@@ -68,3 +68,6 @@ class Render:
             user_input = int(input(f"{player_name} make your step"))
 
         return user_input
+
+    def show_menu(self):
+        pass

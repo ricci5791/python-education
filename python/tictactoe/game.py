@@ -1,4 +1,5 @@
 """Module with game logic"""
+import logging
 from typing import Tuple
 
 from render import Render
@@ -13,6 +14,11 @@ class TicTacToe:
         self.first_player, self.second_player = None, None
         self.curr_player_mark = "O"
         self.render = Render()
+
+        logging.basicConfig(level=logging.INFO,
+                            format="%(asctime)s, %(levelname)s - %(message)s",
+                            datefmt="%d-%b-%y %H:%M:%S",
+                            filename="game_logs.log")
 
     def make_move(self, move: int) -> bool:
         """
@@ -100,6 +106,11 @@ class TicTacToe:
                 continue
 
             if self.is_winning(self.curr_player_mark):
+                logging.info("Player %s won; (%s vs %s) total moves made is %i",
+                             self.get_curr_player_name(),
+                             self.first_player,
+                             self.second_player,
+                             len(self.moves))
                 self.render.show(f"Congratulation "
                                  f"{self.get_curr_player_name()}, you won!")
                 break
