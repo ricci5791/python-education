@@ -12,10 +12,12 @@ class TicTacToe:
     MENU_REPLAY_GAME = 2
     MENU_SHOW_LOGS = 3
 
-    def __init__(self):
+    def __init__(self, save_prev_names: bool = False):
         self.game_field = [str(i + 1) for i in range(9)]
         self.moves = list()
-        self.first_player, self.second_player = None, None
+        if not save_prev_names:
+            self.first_player, self.second_player = None, None
+            self.victory_counter = [0, 0]
         self.curr_player_mark = "O"
         self.render = Render()
 
@@ -93,14 +95,12 @@ class TicTacToe:
         return self.first_player if self.curr_player_mark == "O" \
             else self.second_player
 
-    def start_game_cycle(self) -> None:
+    def game_cycle(self) -> None:
         """
-        Starts game cycle and operates with the game state
+        Starts game with existing players
 
         :return: None
         """
-        self.set_players_names(self.render.get_names())
-
         while True:
             self.render.show_field(self.game_field)
             user_move = self.render.get_player_move(self.get_curr_player_name())
@@ -110,16 +110,50 @@ class TicTacToe:
                 continue
 
             if self.is_winning(self.curr_player_mark):
-                logging.info("Player %s won; (%s vs %s) total moves made is %i",
-                             self.get_curr_player_name(),
-                             self.first_player,
-                             self.second_player,
-                             len(self.moves))
+                if self.curr_player_mark == "O":
+                    self.victory_counter[0] += 1
+                else:
+                    self.victory_counter[1] += 1
+
+                logging.info(
+                        "Player %s won; %s(%i vs %i)%s total moves made is %i",
+                        self.get_curr_player_name(),
+                        self.first_player,
+                        self.victory_counter[0],
+                        self.victory_counter[1],
+                        self.second_player,
+                        len(self.moves))
                 self.render.show(f"Congratulation "
                                  f"{self.get_curr_player_name()}, you won!")
                 break
 
             self.change_curr_player()
+
+    def start_new_game_cycle(self) -> None:
+        """
+        Starts game cycle and operates with the game state
+
+        :return: None
+        """
+        self.__init__()
+
+        self.set_players_names(self.render.get_names())
+
+        self.game_cycle()
+
+    def start_game_cycle(self) -> None:
+        """
+        Continue playing with set players
+
+        :return: None
+        """
+        self.__init__(True)
+
+        if self.first_player is None and self.second_player is None:
+            self.render.show("You haven't played any games")
+            return
+
+        self.game_cycle()
 
     def show_menu(self) -> None:
         """
@@ -129,10 +163,12 @@ class TicTacToe:
         """
         menu_choice = self.render.show_menu()
 
-        if menu_choice == self.MENU_NEW_GAME:
-            self.start_game_cycle()
-        elif menu_choice == self.MENU_REPLAY_GAME:
-            self.start_game_cycle()
-        elif menu_choice == self.MENU_SHOW_LOGS:
-            with open("game_logs.log") as log_file:
-                print(log_file.read())
+            if menu_choice == self.MENU_NEW_GAME:
+                self.start_new_game_cycle()
+            elif menu_choice == self.MENU_REPLAY_GAME:
+                self.start_game_cycle()
+            elif menu_choice == self.MENU_SHOW_LOGS:
+                with open("game_logs.log") as log_file:
+                    print(log_file.read())
+            elif menu_choice == self.MENU_EXIT:
+                break
