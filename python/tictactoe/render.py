@@ -1,8 +1,9 @@
 """Module with render-associated classes: Render and Tkinter"""
+from typing import List, Tuple
+
 import os
 import re
 import prettytable
-from typing import List, Tuple
 
 
 class Render:
@@ -27,7 +28,7 @@ class Render:
 
     def show_field(self, game_field: List[str]):
         """
-        Prints given list of chars as square game field
+        Clear console and prints given list of chars as square game field
 
         :param game_field: List of chars
         :type game_field: List[str]
@@ -52,15 +53,15 @@ class Render:
         """
         print("Remember! Only latin chars allowed")
 
-        first_player_name = input("Enter first player name")
-        second_player_name = input("Enter second player name")
+        first_player_name = input("Enter first player name: \n")
+        second_player_name = input("Enter second player name: \n")
 
         while re.findall(r"[^A-z\s]", first_player_name + second_player_name) \
                 or first_player_name == second_player_name:
             print("Wrong names! Try again. \n")
 
-            first_player_name = input("Enter first player name")
-            second_player_name = input("Enter second player name")
+            first_player_name = input("Enter first player name: \n")
+            second_player_name = input("Enter second player name: \n")
 
         return first_player_name, second_player_name
 
@@ -77,14 +78,14 @@ class Render:
 
         while not 0 < user_input < 10:
             print("Choose cell from 1 to 9")
-            user_input = int(input(f"{player_name} make your step"))
+            user_input = int(input(f"{player_name} make your step: "))
 
         return user_input
 
     @staticmethod
     def show_menu() -> int:
         """
-        Takes user input from 1 to 3 as menu points
+        Takes user input from 1 to 5 as menu points
 
         :return:  Chosen point from the menu
         :rtype: int
@@ -92,11 +93,13 @@ class Render:
         print("1: new game")
         print("2: replay game")
         print("3: show logs")
+        print("4: delete logs")
+        print("5: exit")
 
-        user_input = input("Choose point from the menu below:")
+        user_input = input("Choose point from the menu below: ")
 
-        while re.findall(r"\D", user_input) or not (0 < int(user_input) < 4):
+        while re.findall(r"\D", user_input) or not 0 < int(user_input) < 6:
             print("Incorrect input! Try again, only digits are allowed")
-            user_input = input("Choose point from the menu:")
+            user_input = input("Choose point from the menu: ")
 
         return int(user_input)

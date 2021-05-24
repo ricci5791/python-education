@@ -11,7 +11,8 @@ class TicTacToe:
     MENU_NEW_GAME = 1
     MENU_REPLAY_GAME = 2
     MENU_SHOW_LOGS = 3
-    MENU_EXIT = 4
+    MENU_CLEAR_LOGS = 4
+    MENU_EXIT = 5
 
     def __init__(self, save_prev_names: bool = False):
         self.game_field = [str(i + 1) for i in range(9)]
@@ -174,3 +175,6 @@ class TicTacToe:
                     print(log_file.read())
             elif menu_choice == self.MENU_EXIT:
                 break
+            elif menu_choice == self.MENU_CLEAR_LOGS:
+                open("game_logs.log", "w").close()
+                self.render.show("Logs was deleted!\n")
