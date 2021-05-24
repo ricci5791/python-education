@@ -15,7 +15,7 @@ class TicTacToe:
 
     def __init__(self, save_prev_names: bool = False):
         self.game_field = [str(i + 1) for i in range(9)]
-        self.moves = list()
+        self.moves_count = 0
         if not save_prev_names:
             self.first_player, self.second_player = None, None
             self.victory_counter = [0, 0]
@@ -39,7 +39,7 @@ class TicTacToe:
 
         if self.game_field[move] == str(move + 1):
             self.game_field[move] = self.curr_player_mark
-            self.moves.append((self.curr_player_mark, move))
+            self.moves_count += 1
             return True
 
         return False
@@ -52,7 +52,7 @@ class TicTacToe:
         :return: True if player won the game, False otherwise
         :rtype: bool
         """
-        if len(self.moves) < 4:
+        if self.moves_count < 4:
             return False
 
         field = [self.game_field[i] == player_mark for i in range(9)]
@@ -123,7 +123,7 @@ class TicTacToe:
                         self.victory_counter[0],
                         self.victory_counter[1],
                         self.second_player,
-                        len(self.moves))
+                        self.moves_count)
                 self.render.show(f"Congratulation "
                                  f"{self.get_curr_player_name()}, you won!")
                 break
