@@ -3,4 +3,4 @@ import game as g
 
 game = g.TicTacToe()
 
-game.start_game_cycle()
+game.show_menu()

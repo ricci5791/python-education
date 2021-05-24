@@ -8,6 +8,10 @@ from render import Render
 class TicTacToe:
     """Implements tic-tac-toe game logic"""
 
+    MENU_NEW_GAME = 1
+    MENU_REPLAY_GAME = 2
+    MENU_SHOW_LOGS = 3
+
     def __init__(self):
         self.game_field = [str(i + 1) for i in range(9)]
         self.moves = list()
@@ -68,7 +72,7 @@ class TicTacToe:
         """
         self.first_player, self.second_player = player_names
 
-    def change_curr_player(self):
+    def change_curr_player(self) -> None:
         """
         Change current player mark to the opposite one
 
@@ -116,3 +120,19 @@ class TicTacToe:
                 break
 
             self.change_curr_player()
+
+    def show_menu(self) -> None:
+        """
+        Control menu interaction with user
+
+        :return: None
+        """
+        menu_choice = self.render.show_menu()
+
+        if menu_choice == self.MENU_NEW_GAME:
+            self.start_game_cycle()
+        elif menu_choice == self.MENU_REPLAY_GAME:
+            self.start_game_cycle()
+        elif menu_choice == self.MENU_SHOW_LOGS:
+            with open("game_logs.log") as log_file:
+                print(log_file.read())

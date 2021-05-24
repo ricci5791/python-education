@@ -69,5 +69,21 @@ class Render:
 
         return user_input
 
-    def show_menu(self):
-        pass
+    def show_menu(self) -> int:
+        """
+        Takes user input from 1 to 3 as menu points
+
+        :return:  Chosen point from the menu
+        :rtype: int
+        """
+        print("1: new game")
+        print("2: replay game")
+        print("3: show logs")
+
+        user_input = input("Choose point from the menu below:")
+
+        while re.findall(r"\D", user_input) or not (0 < int(user_input) < 4):
+            print("Incorrect input! Try again, only digits are allowed")
+            user_input = input("Choose point from the menu:")
+
+        return int(user_input)
