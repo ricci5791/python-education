@@ -11,6 +11,7 @@ class TicTacToe:
     MENU_NEW_GAME = 1
     MENU_REPLAY_GAME = 2
     MENU_SHOW_LOGS = 3
+    MENU_EXIT = 4
 
     def __init__(self, save_prev_names: bool = False):
         self.game_field = [str(i + 1) for i in range(9)]
@@ -161,7 +162,8 @@ class TicTacToe:
 
         :return: None
         """
-        menu_choice = self.render.show_menu()
+        while True:
+            menu_choice = self.render.show_menu()
 
             if menu_choice == self.MENU_NEW_GAME:
                 self.start_new_game_cycle()
