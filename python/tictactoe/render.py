@@ -35,8 +35,11 @@ class Render:
         :return: None
         """
         self.text_table.clear()
-        os.system('cls')
-        os.system('clear')
+
+        if os.name == 'nt':
+            os.system('cls')
+        else:
+            os.system('clear')
 
         rows_slices = [game_field[:3], game_field[3: 6], game_field[6:]]
 
