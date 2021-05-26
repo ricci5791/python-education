@@ -31,26 +31,43 @@ class LinkedList:
 
     def pop(self):
         """Returns last element of the list and deletes it"""
-        if self.counter == 0:
-            return
+        if self.counter != 0:
+            curr_node = self.head
+            prev_node = None
 
-        curr_node = self.head
-        prev_node = None
+            if self.counter == 1:
+                self.head = None
+                self.tail = None
 
-        if self.counter == 1:
-            self.head = None
-            self.tail = None
+                self.counter -= 1
+                return curr_node.value
 
+            if curr_node is not None:
+                while curr_node.next_node is not None:
+                    prev_node = curr_node
+                    curr_node = curr_node.next_node
+
+                prev_node.next_node = None
+                self.tail = prev_node
+
+                self.counter -= 1
+                return curr_node.value
+
+        return None
+
+    def rpop(self) -> Any:
+        """
+        Pops first item of the list if exists
+
+        :return: First element from the list
+        :rtype: Any
+        """
+        if self.counter != 0:
+            prev_head = self.head
+
+            self.head = prev_head.next_node
             self.counter -= 1
-            return curr_node.value
 
-        if curr_node is not None:
-            while curr_node.next_node is not None:
-                prev_node = curr_node
-                curr_node = curr_node.next_node
+            return prev_head.value
 
-            prev_node.next_node = None
-            self.tail = prev_node
-
-            self.counter -= 1
-            return curr_node.value
+        return None
