@@ -12,16 +12,25 @@ class LinkedList:
             self.next_node = None
             self.value = value
 
+        def __str__(self):
+            return str(self.value)
+
     def __init__(self):
         self.head = None
         self.tail = None
         self.counter = 0
 
     def append(self, value: Any):
-        """Appends value to the end of the list"""
+        """
+        Appends value to the end of the list
+
+        :param value: Element to append
+        :type value: Any
+        :return: None
+        """
         new_node = LinkedList._Node(value)
 
-        if self.head is None:
+        if self.is_empty():
             self.head = self.tail = new_node
         else:
             self.tail.next_node = new_node
@@ -29,9 +38,14 @@ class LinkedList:
 
         self.counter += 1
 
-    def pop(self):
-        """Returns last element of the list and deletes it"""
-        if self.counter != 0:
+    def pop(self) -> Any:
+        """
+        Returns last element of the list and deletes it
+
+        :return: Last value if present
+        :rtype: Any
+        """
+        if not self.is_empty():
             curr_node = self.head
             prev_node = None
 
@@ -62,7 +76,7 @@ class LinkedList:
         :return: First element from the list
         :rtype: Any
         """
-        if self.counter != 0:
+        if not self.is_empty():
             prev_head = self.head
 
             self.head = prev_head.next_node
@@ -71,3 +85,44 @@ class LinkedList:
             return prev_head.value
 
         return None
+
+    def lookup(self, value: Any) -> bool:
+        """
+        Checks if given item in the list
+
+        :param value:
+        :return: Whether item in the list
+        :rtype: bool
+        """
+        if not self.is_empty():
+            for item in self:
+                if item.value == value:
+                    return True
+
+        return False
+
+    def is_empty(self) -> bool:
+        """
+        Checks if list is empty
+
+        :return: True if list is empty, False otherwise
+        :rtype: bool
+        """
+
+        return self.counter == 0
+
+    def __repr__(self):
+        res = ""
+
+        for item in self:
+            res += str(item.value) + ", "
+
+        return res
+
+    def __iter__(self):
+        if not self.is_empty():
+            curr_node = self.head
+
+            while curr_node is not None:
+                yield curr_node
+                curr_node = curr_node.next_node
