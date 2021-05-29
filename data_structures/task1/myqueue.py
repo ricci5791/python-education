@@ -1,7 +1,7 @@
 """Module with basic non-prior queue"""
 from typing import Any
 
-from data_structures.task1.linkedlist import LinkedList
+from data_structures.task1.mylinkedlist import LinkedList
 
 
 class Queue:

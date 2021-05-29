@@ -38,6 +38,35 @@ class LinkedList:
 
         self.counter += 1
 
+    def prepend(self, value):
+        """
+        Add element to the head of the list
+
+        :param value: Data to store
+        :return: None
+        """
+        temp_head = self.head
+
+        self.head = LinkedList._Node(value)
+
+        self.head.next_node = temp_head
+
+    def insert(self, index, value):
+        """
+        Inserts value to the given index
+
+        :param index:
+        :param value:
+        :return:
+        """
+        if -1 < index < self.counter:
+            if index == 0:
+                self.prepend(value)
+            elif index == self.counter - 1:
+                self.append(value)
+        else:
+            return -1
+
     def pop(self) -> Any:
         """
         Returns last element of the list and deletes it
@@ -86,20 +115,53 @@ class LinkedList:
 
         return None
 
-    def lookup(self, value: Any) -> bool:
+    def delete(self, index: int) -> bool:
         """
-        Checks if given item in the list
+        Deletes element with given index if exists
+
+        :param index: Index of the element to be deleted
+        :return: Is deletion was successful
+        """
+        if not -1 < index < self.counter:
+            return False
+        elif index == 0:
+            self.rpop()
+            return True
+
+        temp_counter = 0
+        curr_node = self.head
+        prev_node = None
+
+        while temp_counter != index:
+            prev_node = curr_node
+            curr_node = curr_node.next_node
+            temp_counter += 1
+
+        if curr_node.next_node is None:
+            prev_node.next_node = None
+        else:
+            prev_node.next_node = curr_node.next_node
+
+        self.counter -= 1
+
+        return True
+
+    def lookup(self, value: Any) -> int:
+        """
+        Finds index of the given element
 
         :param value:
-        :return: Whether item in the list
-        :rtype: bool
+        :return: Index of the given element. -1 if not found
+        :rtype: int
         """
         if not self.is_empty():
+            counter = -1
             for item in self:
+                counter += 1
                 if item.value == value:
-                    return True
+                    return counter
 
-        return False
+        return -1
 
     def is_empty(self) -> bool:
         """
@@ -118,6 +180,13 @@ class LinkedList:
             res += str(item.value) + ", "
 
         return res
+
+    def __getitem__(self, item):
+        counter = 0
+        for item_value in self:
+            if item == counter:
+                return item_value
+            counter += 1
 
     def __iter__(self):
         if not self.is_empty():

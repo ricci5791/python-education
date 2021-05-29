@@ -1,9 +1,10 @@
 """Tests for linked list implementation"""
 import pytest
 
-from data_structures.task1.linkedlist import LinkedList
-from data_structures.task1.queue import Queue
-from data_structures.task1.stack import Stack
+from data_structures.task1.myhashtable import HashTable
+from data_structures.task1.mylinkedlist import LinkedList
+from data_structures.task1.myqueue import Queue
+from data_structures.task1.mystack import Stack
 
 
 @pytest.fixture(name="filled_linked_list")
@@ -71,13 +72,22 @@ def test_linked_list_counter(test_list, expected):
     assert empty_linked_list.counter == expected
 
 
+@pytest.mark.parametrize("test_index, expected", [
+    (5, False),
+    (0, True),
+    (2, True),
+])
+def test_linked_list_delete(filled_linked_list, test_index, expected):
+    assert filled_linked_list.delete(test_index) == expected
+
+
 @pytest.mark.parametrize("test_item, expected", [
-    ([0, 1, 2, 3, 4], True),
-    ([5, 10, -1, "5", None], False)
+    ([i for i in range(5)], [i for i in range(5)]),
+    ([6, 10, -1, "6", None], [-1 for _ in range(5)])
 ])
 def test_linked_list_lookup(filled_linked_list, test_item, expected):
-    for item in test_item:
-        assert filled_linked_list.lookup(item) == expected
+    for item in zip(test_item, expected):
+        assert filled_linked_list.lookup(item[0]) == item[1]
 
 
 @pytest.mark.parametrize("pop_counter, expected", [
@@ -110,3 +120,11 @@ def test_stack_pop_insert_pop(filled_stack, list_to_insert, expected):
 
     for expected_item in expected[1:]:
         assert filled_stack.pop() == expected_item
+
+
+@pytest.mark.parametrize("key, expected", [
+    ("test", 2)
+])
+def test_hashtable_hash_function(key, expected):
+    hashtable = HashTable()
+    assert hashtable._hash_key(key) == expected
