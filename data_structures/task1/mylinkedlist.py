@@ -177,7 +177,7 @@ class LinkedList:
         res = ""
 
         for item in self:
-            res += str(item.value) + ", "
+            res += str(item) + ", "
 
         return res
 
