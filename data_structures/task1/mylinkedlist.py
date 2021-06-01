@@ -49,7 +49,12 @@ class LinkedList:
 
         self.head = LinkedList._Node(value)
 
-        self.head.next_node = temp_head
+        if not self.is_empty():
+            self.head.next_node = temp_head
+        else:
+            self.tail = self.head
+
+        self.counter += 1
 
     def insert(self, index, value):
         """
@@ -57,15 +62,28 @@ class LinkedList:
 
         :param index:
         :param value:
-        :return:
+        :return: None
         """
-        if -1 < index < self.counter:
+        if -1 < index <= self.counter:
             if index == 0:
                 self.prepend(value)
-            elif index == self.counter - 1:
+            elif index == self.counter:
                 self.append(value)
+            else:
+                counter = 0
+                node = self.head
+
+                while counter != index - 1:
+                    node = node.next_node
+                    counter += 1
+
+                sub_nodes = node.next_node
+                node.next_node = LinkedList._Node(value)
+                node.next_node.next_node = sub_nodes
+
+                self.counter += 1
         else:
-            return -1
+            raise IndexError
 
     def pop(self) -> Any:
         """
@@ -120,7 +138,7 @@ class LinkedList:
         Deletes element with given index if exists
 
         :param index: Index of the element to be deleted
-        :return: Is deletion was successful
+        :return: Is deletion successful
         """
         if not -1 < index < self.counter:
             return False
@@ -173,6 +191,9 @@ class LinkedList:
 
         return self.counter == 0
 
+    def __len__(self):
+        return self.counter
+
     def __repr__(self):
         res = ""
 
@@ -181,10 +202,13 @@ class LinkedList:
 
         return res
 
-    def __getitem__(self, item):
+    def __getitem__(self, index):
+        if not 0 <= index < self.counter:
+            raise IndexError
+
         counter = 0
         for item_value in self:
-            if item == counter:
+            if index == counter:
                 return item_value
             counter += 1
 
@@ -195,3 +219,10 @@ class LinkedList:
             while curr_node is not None:
                 yield curr_node
                 curr_node = curr_node.next_node
+
+    def __eq__(self, other):
+        for item, other_item in zip(self, other):
+            if item.value != other_item:
+                return False
+
+        return True
