@@ -32,9 +32,11 @@ class Stack:
         """
         Takes value from the top without deleting
 
-        :return: Value from the top
+        :return: Value from the top, None if empty
         :rtype: Any
         """
+        if self._list.tail is None:
+            return None
         return self._list.tail.value
 
     def __iter__(self):
