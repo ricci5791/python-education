@@ -40,6 +40,7 @@ class BinSearchTree:
 
     def __init__(self, value):
         self.root = BinSearchTree.Node(value, None)
+        self.inorder_traversal_str = ""
 
     def insert(self, value):
         """
@@ -90,9 +91,9 @@ class BinSearchTree:
         :return: None
         """
         curr_node = self.lookup(value)
-        prev_node = curr_node.parent
         if curr_node is None:
             return
+        prev_node = curr_node.parent
 
         if curr_node.left is None:
             if curr_node.right is None:
@@ -110,3 +111,21 @@ class BinSearchTree:
                 iter_node = iter_node.right
             prev_node.right = None
             curr_node.value = iter_node.value
+
+    def inorder_traversal(self):
+        """
+        Makes inorder traversal through the tree
+
+        :return:
+        """
+        self.inorder_traversal_str = ""
+
+        self._inorder_traversal(self.root)
+        return self.inorder_traversal_str.strip()
+
+    def _inorder_traversal(self, node):
+        if node.left is not None:
+            self._inorder_traversal(node.left)
+        self.inorder_traversal_str += " " + str(node.value)
+        if node.right is not None:
+            self._inorder_traversal(node.right)
