@@ -40,6 +40,9 @@ class Graph:
         def __str__(self):
             return f"V:{self.value}"
 
+        def __eq__(self, other):
+            return self.value == other
+
     def __init__(self):
         self.nodes_list = LinkedList()
 
@@ -59,7 +62,10 @@ class Graph:
 
             if node is None:
                 node = Graph.Vertex(item)
+
             new_node.add_edge(node)
+
+            self.nodes_list.append(node)
 
         self.nodes_list.append(new_node)
 
