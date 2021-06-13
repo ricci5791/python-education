@@ -1,5 +1,5 @@
 SELECT *
-from "Order"
+FROM "Order"
          INNER JOIN order_status os
-                    on "Order".order_status_order_status_id = os.order_status_id
+                    ON "Order".order_status_order_status_id = os.order_status_id
 WHERE order_status_order_status_id = 4;

@@ -1,8 +1,8 @@
 SELECT *
-from users;
+FROM users;
 
 SELECT *
-from products;
+FROM products;
 
 SELECT *
-from order_status;
+FROM order_status;
