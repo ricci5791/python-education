@@ -8,7 +8,7 @@ WHERE price > 80
 -- 2. заказы совершенные после 01.10.2020 (поле created_at)
 
 SELECT *
-FRON "Order"
+FROM "Order"
 WHERE created_at >= '2020-10-01';
 
 -- 3. заказы полученные за первое полугодие 2020 года
@@ -39,10 +39,15 @@ WHERE category_id = 7
 
 SELECT *
 FROM "Order"
-WHERE order_status_order_status_id < 4;
+WHERE created_at < '31.12.2020' AND order_status_order_status_id < 4;
 
 -- 6.Вывести все корзины, которые были созданы, но заказ так и не был оформлен.
 
-select c.*
-FROM "Order" inner join carts c on "Order".carts_cart_id = c.cart_id
-where "Order".order_status_order_status_id = 5;
+-- Preferable
+SELECT c.*
+FROM "Order" RIGHT JOIN carts c ON "Order".carts_cart_id = c.cart_id
+WHERE "Order".carts_cart_id IS NULL;
+
+SELECT c.*
+FROM "Order" FULL OUTER JOIN carts c ON "Order".carts_cart_id = c.cart_id
+WHERE "Order".carts_cart_id IS NULL;
