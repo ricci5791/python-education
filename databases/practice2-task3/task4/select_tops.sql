@@ -47,3 +47,24 @@ FROM users
 GROUP BY user_id
 ORDER BY total_spent DESC
 LIMIT 5;
+
+-- 6. Вывести топ 5 юзеров, которые сделали больше всего заказов (кол-во заказов).
+
+SELECT *, COUNT(o.order_id) order_count
+FROM users
+         INNER JOIN carts c on users.user_id = c.users_user_id
+         INNER JOIN "Order" o on c.cart_id = o.carts_cart_id
+GROUP BY users.user_id
+ORDER BY order_count DESC
+LIMIT 5;
+
+-- 7. Вывести топ 5 юзеров, которые создали корзины, но так и не сделали заказы.
+
+SELECT *, count(C.cart_id) AS cart_count
+FROM users
+         INNER JOIN carts c on users.user_id = c.users_user_id
+         FULL JOIN "Order" o on c.cart_id = o.carts_cart_id
+WHERE O.order_id IS NULL
+GROUP BY users.user_id
+ORDER BY cart_count DESC
+LIMIT 5;
