@@ -26,7 +26,7 @@ UPDATE "Order"
 SET order_status_order_status_id = 2
 WHERE order_id = 1501;
 
-RELEASE order_created;
+RELEASE SAVEPOINT order_created;
 COMMIT;
 
 SELECT *
