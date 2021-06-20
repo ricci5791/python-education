@@ -59,17 +59,15 @@ BEGIN
 
         RAISE NOTICE 'User % % (user id = %) spent % from % to nowadays',
             first_name, last_name, user_id, total, creation_date;
-    END;
+        COMMIT;
+    END select_block;
 END;
 $$;
 
 CALL get_top_thousand_spender();
 
-START TRANSACTION;
 CALL lower_staff_shipping_price(5);
 
 SELECT *
 FROM "Order"
 ORDER BY order_id;
-
-COMMIT;
