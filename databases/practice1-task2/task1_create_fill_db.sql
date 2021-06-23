@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS Addresses
 CREATE TABLE IF NOT EXISTS Customers
 (
     customer_id serial PRIMARY KEY,
-    name        varchar(30) UNIQUE    NOT NULL,
-    surname     varchar(30) UNIQUE    NOT NULL,
+    name        varchar(30)           NOT NULL,
+    surname     varchar(30)           NOT NULL,
     phone       numeric(10, 0) UNIQUE NOT NULL,
     address_id  serial,
     CONSTRAINT customers_address_id_fk
