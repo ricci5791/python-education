@@ -268,6 +268,15 @@ begin
             end if;
         end loop;
 
+    delete
+    from rentals
+    where customer_id in (select c.customer_id
+                          from rentals
+                                   inner join customers c
+                                              on rentals.customer_id = c.customer_id
+                          group by c.customer_id
+                          having count(c.customer_id) = 1);
+
     drop sequence car_plate_seq;
 end;
 $$;
