@@ -53,7 +53,10 @@ begin
                 where car_plate = car.car_plate;
             end if;
         end loop;
-    commit;
+exception
+    when sqlstate 'P0001' then
+        raise notice 'WARNING -- Too many records to delete: %', deletion_cars_counter;
+        commit;
 end;
 $$;
 
