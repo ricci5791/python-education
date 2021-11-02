@@ -240,7 +240,7 @@ begin
 
     for _ in 0..1000000
         loop
-            temp_customer_id = floor(random() * customer_count);
+            temp_customer_id = floor(random() * customer_count) + 1;
             temp_car_plate = substr(md5(nextval('car_plate_seq')::text), 0, 8);
             temp_branch_id = (floor(random() * branch_count) + 1);
             temp_timestamp = (select timestamp '2010-01-01 00:00:00' +

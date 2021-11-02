@@ -48,3 +48,4 @@ $$;
 
 begin;
 select get_rentals_for_branch(1);
+end;
