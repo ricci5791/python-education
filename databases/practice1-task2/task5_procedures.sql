@@ -57,6 +57,9 @@ exception
     when sqlstate 'P0001' then
         raise notice 'WARNING -- Too many records to delete: %', deletion_cars_counter;
         commit;
+    when others then
+        raise notice 'Unhandled exception occurred during function execution!';
+        commit;
 end;
 $$;
 
