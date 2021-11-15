@@ -12,6 +12,7 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
   pgadmin:
     image: dpage/pgadmin4:4.30
     restart: always
@@ -32,7 +33,23 @@ services:
     ports:
       - "8000:8000"
 
+  s3:
+    image: minio/minio
+    container_name: s3
+    restart: always
+    env_file:
+      - flask_app/envs/.env.minio.list
+    environment:
+      - MINIO_SERVER_PORT="9001"
+    ports:
+      - "100:100"
+      - "9001:9001"
+      - "9000:9000"
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./storage:/data
 
 volumes:
   db-data:
   pgadmin-data:
+  s3-data:
