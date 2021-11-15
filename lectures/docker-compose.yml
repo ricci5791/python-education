@@ -45,4 +45,4 @@ networks:
     name: my-default-network
 
   test-network:
-    driver: bridge
+    driver: overlay
