@@ -4,9 +4,9 @@ services:
   postgres_db:
     image: postgres:13.2
     restart: always
+    env_file:
+      - flask_app/envs/.env.postgres.list
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /var/lib/postgresql/data
     volumes:
       - db-data:/var/lib/postgresql/data
@@ -15,22 +15,20 @@ services:
   pgadmin:
     image: dpage/pgadmin4:4.30
     restart: always
+    env_file:
+      - flask_app/envs/.env.pgadmin.list
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_LISTEN_PORT: 80
     ports:
       - "8080:80"
     volumes:
       - pgadmin-data:/var/lib/pgadmin
-    networks:
-      - test-network
 
   flask-app:
-    image: ./flask_app
+    build: flask_app/
     restart: on-failure
     env_file:
-      - .env.list
+      - flask_app/envs/.env.pgadmin.list
     ports:
       - "8000:8000"
 
@@ -38,11 +36,3 @@ services:
 volumes:
   db-data:
   pgadmin-data:
-
-networks:
-  default:
-    external: true
-    name: my-default-network
-
-  test-network:
-    driver: overlay

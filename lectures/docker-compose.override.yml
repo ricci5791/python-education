@@ -4,4 +4,4 @@ services:
   postgres_db:
     container_name: db-local
     env_file:
-      - .env.list
+      - flask_app/envs/.env.pgadmin.list
