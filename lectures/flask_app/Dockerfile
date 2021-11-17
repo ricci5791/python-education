@@ -1,4 +1,4 @@
-FROM python:3.8-alpine
+FROM python:3.8-slim
 
 # set work directory
 WORKDIR /app
@@ -7,7 +7,7 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-EXPOSE 5000
+EXPOSE 5000 8000
 
 # install dependencies
 COPY requirements.txt .

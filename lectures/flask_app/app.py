@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.get("/")
 def read_root():
-    return jsonify('hello world')
+    return jsonify(os.getenv("TEST4", "2"))
 
 
 def _save_to_bucket():
@@ -48,3 +48,7 @@ def _save_to_bucket():
 @app.get("/crypto")
 def get_crypto():
     return _save_to_bucket()
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
