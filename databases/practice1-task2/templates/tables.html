@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        {% for title in header %}
+        <td>{{ title }}</td>
+        {% endfor %}
+    </tr>
+    </thead>
+    {% for row in rows %}
+    <tr>
+        {% for item in row %}
+        <td>{{ item }}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

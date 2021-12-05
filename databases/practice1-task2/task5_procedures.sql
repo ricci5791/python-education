@@ -56,18 +56,21 @@ begin
 exception
     when sqlstate 'P0001' then
         raise notice 'WARNING -- Too many records to delete: %', deletion_cars_counter;
-        commit;
+--         commit;
     when others then
         raise notice 'Unhandled exception occurred during function execution!';
-        commit;
+--         commit;
 end;
 $$;
 
 select *
 from cars;
 
-call delete_or_update_model_price(9500::money, 2233::money);
+call delete_or_update_model_price(205::money, 2233::money);
 call delete_or_update_model_price(9035::money, 2233::money);
 
-select *
+select avg(price::numeric)
 from cars;
+
+select min(price)
+from cars
